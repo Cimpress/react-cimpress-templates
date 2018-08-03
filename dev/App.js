@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
-import TemplateSelector from '../src/TemplateSelector'
-import TemplateSelectorButton from '../src/TemplateSelectorButton'
+import TemplatesSelect from '../src/TemplatesSelect'
+import TemplatesSelectButton from '../src/TemplatesSelectButton'
 
 import auth from './auth/auth'
 
@@ -41,7 +41,7 @@ export default class App extends Component {
         return [
             {
                 caption: 'Provided list of templates',
-                render: <TemplateSelector
+                render: <TemplatesSelect
                     key={0} templates={[{
                     templateId: 't1'
                 }, {
@@ -54,21 +54,21 @@ export default class App extends Component {
             },
             {
                 caption: 'Get templates from service',
-                render: <TemplateSelector
+                render: <TemplatesSelect
                     accessToken={this.state.token}
                     selectedTemplateId={this.state.lastTemplateId}
                     onChange={templateId => this.setState({lastTemplateId: templateId})}/>
             },
             {
                 caption: 'Get templates from service, plain select',
-                render: <TemplateSelector
+                render: <TemplatesSelect
                     accessToken={this.state.token} showAddNew={false}
                     selectedTemplateId={this.state.lastTemplateId}
                     onChange={templateId => this.setState({lastTemplateId: templateId})}/>
             },
             {
                 caption: 'Open template selection',
-                render: <TemplateSelectorButton
+                render: <TemplatesSelectButton
                     accessToken={this.state.token}
                     onConfirm={templateId => this.setState({lastTemplateId: templateId})}/>
             }

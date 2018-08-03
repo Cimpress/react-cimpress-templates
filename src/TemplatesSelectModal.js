@@ -1,15 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {getI18nInstance} from './i18n';
-import {translate} from 'react-i18next';
-import TemplateSelector from './TemplateSelector';
-import {Portal} from 'react-portal'
-import {Modal} from '@cimpress/react-components'
+import { getI18nInstance } from './i18n';
+import { translate } from 'react-i18next';
+import TemplatesSelect from './TemplatesSelect';
+import { Portal } from 'react-portal'
+import { Modal } from '@cimpress/react-components'
 
-import './TemplateSelectorModal.css'
+import './TemplatesSelectModal.css'
 
-class TemplateSelectorModal extends React.Component {
+class TemplatesSelectModal extends React.Component {
 
     constructor(props) {
         super(props);
@@ -31,16 +31,18 @@ class TemplateSelectorModal extends React.Component {
     }
 
     tt(key) {
-        let {t, language} = this.props;
-        return t(key, {lng: language});
+        let { t, language } = this.props;
+        return t(key, { lng: language });
     }
 
     render() {
         return <Portal>
             <Modal
                 bsStyle={this.props.bsStyle || 'info'}
-                className={this.props.className ? this.props.className + ' tsm' : 'tsm'}
-                style={{overflow: "visible"}}
+                className={this.props.className
+                    ? this.props.className + ' tsm'
+                    : 'tsm'}
+                style={{ overflow: "visible" }}
                 show={this.props.open}
                 onRequestHide={() => this.onCancel()}
                 closeOnOutsideClick={true}
@@ -58,11 +60,11 @@ class TemplateSelectorModal extends React.Component {
                     </div>
                 }>
 
-                <TemplateSelector
+                <TemplatesSelect
                     language={this.props.language}
                     selectedTemplateId={this.state.selectedTemplateId}
                     accessToken={this.props.accessToken}
-                    onChange={(templateId => this.setState({selectedTemplateId: templateId}))}
+                    onChange={(templateId => this.setState({ selectedTemplateId: templateId }))}
                 />
             </Modal>
         </Portal>
@@ -70,29 +72,32 @@ class TemplateSelectorModal extends React.Component {
 }
 
 
-TemplateSelectorModal.propTypes = {
+TemplatesSelectModal.propTypes = {
     // silence eslint
     t: PropTypes.any,
     i18n: PropTypes.any,
 
     // Either access token OR a list of templates to display
     accessToken: PropTypes.string,
-    templates: PropTypes.array,
 
     // functions and buttons
     onCancel: PropTypes.func,
     onConfirm: PropTypes.func,
 
     // display
+    open: PropTypes.bool,
+    title: PropTypes.string,
+    bsStyle: PropTypes.string,
+    className: PropTypes.string,
     language: PropTypes.string,
     label: PropTypes.string,
     showAddNew: PropTypes.bool,
     selectedTemplateId: PropTypes.string,
 };
 
-TemplateSelectorModal.defaultProps = {
+TemplatesSelectModal.defaultProps = {
     language: 'eng',
     showAddNew: true
 };
 
-export default translate('translations', {i18n: getI18nInstance()})(TemplateSelectorModal);
+export default translate('translations', { i18n: getI18nInstance() })(TemplatesSelectModal);

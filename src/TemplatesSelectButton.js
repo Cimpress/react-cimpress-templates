@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {getI18nInstance} from './i18n';
-import {translate} from 'react-i18next';
-import TemplateSelectorModal from './TemplateSelectorModal';
+import { getI18nInstance } from './i18n';
+import { translate } from 'react-i18next';
+import TemplatesSelectModal from './TemplatesSelectModal';
 
-class TemplateSelectorButton extends React.Component {
+class TemplatesSelectButton extends React.Component {
 
     constructor(props) {
         super(props);
@@ -15,7 +15,7 @@ class TemplateSelectorButton extends React.Component {
     }
 
     onCancel() {
-        this.setState({open: false}, () => {
+        this.setState({ open: false }, () => {
             if (this.props.onCancel) {
                 this.props.onCancel()
             }
@@ -23,7 +23,7 @@ class TemplateSelectorButton extends React.Component {
     }
 
     onConfirm(templateId) {
-        this.setState({open: false}, () => {
+        this.setState({ open: false }, () => {
             if (this.props.onConfirm) {
                 this.props.onConfirm(templateId)
             }
@@ -31,16 +31,17 @@ class TemplateSelectorButton extends React.Component {
     }
 
     tt(key) {
-        let {t, language} = this.props;
-        return t(key, {lng: language});
+        let { t, language } = this.props;
+        return t(key, { lng: language });
     }
 
     render() {
         return [
-            <button className={'btn btn-default'} onClick={() => this.setState({open: !this.state.open})}>
+            <button key={0} className={'btn btn-default'} onClick={() => this.setState({ open: !this.state.open })}>
                 {this.tt('open-template-selection-modal')}
             </button>,
-            <TemplateSelectorModal
+            <TemplatesSelectModal
+                key={1}
                 language={this.props.language}
                 open={this.state.open}
                 accessToken={this.props.accessToken}
@@ -52,7 +53,7 @@ class TemplateSelectorButton extends React.Component {
 }
 
 
-TemplateSelectorButton.propTypes = {
+TemplatesSelectButton.propTypes = {
     // silence eslint
     t: PropTypes.any,
     i18n: PropTypes.any,
@@ -71,9 +72,9 @@ TemplateSelectorButton.propTypes = {
     selectedTemplateId: PropTypes.string,
 };
 
-TemplateSelectorButton.defaultProps = {
+TemplatesSelectButton.defaultProps = {
     language: 'eng',
     showAddNew: true
 };
 
-export default translate('translations', {i18n: getI18nInstance()})(TemplateSelectorButton);
+export default translate('translations', { i18n: getI18nInstance() })(TemplatesSelectButton);

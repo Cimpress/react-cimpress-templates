@@ -9,40 +9,44 @@ const CLIENT_SECRET = process.env.CLIENT_SECRET;
 const auth = new Auth0("cimpress.auth0.com", CLIENT_ID, CLIENT_SECRET);
 
 let plugin = new CimpressTranslationsWebpackPlugin({
-  serviceId: "7f446c56-8c8e-438b-9cb2-64e5d7b1d89c",
-  path: path.join(__dirname, "./src/locales/translations.json"),
-  authorizer: {
-    getAccessToken: async () => await auth.getAccessTokenUsingRefreshToken()
-  }
+    serviceId: "14105bd8-499b-451c-aa35-1a79ee651405",
+    path: path.join(__dirname, "./src/locales/translations.json"),
+    authorizer: {
+        getAccessToken: async () => await auth.getAccessTokenUsingRefreshToken()
+    }
 });
 
 module.exports = function (grunt) {
 
-  require('load-grunt-tasks')(grunt);
-  grunt.loadNpmTasks('grunt-webpack');
+    require('load-grunt-tasks')(grunt);
+    grunt.loadNpmTasks('grunt-webpack');
 
-  grunt.initConfig({
-    verbose: true,
-    webpack: {
-      config: () => ({
-        plugins: [plugin],
-        resolve: {
-          extensions: ['.js', '.jsx']
-        },
-        entry: ['./src'],
-        module: {
-          rules: [
-            {
-              test: /\.css$/,
-              use: [
-                { loader: 'style-loader' },
-                { loader: 'css-loader', }
-              ]
-            },
-            { test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel-loader' }
-          ]
+    grunt.initConfig({
+        verbose: true,
+        webpack: {
+            config: () => ({
+                plugins: [plugin],
+                resolve: {
+                    extensions: ['.js']
+                },
+                entry: ['./src'],
+                module: {
+                    rules: [
+                        {
+                            test: /\.css$/,
+                            use: [
+                                {loader: 'style-loader'},
+                                {loader: 'css-loader',}
+                            ]
+                        },
+                        {
+                            test: /\.jsx?$/,
+                            exclude: /node_modules/,
+                            loader: 'babel-loader'
+                        }
+                    ]
+                }
+            })
         }
-      })
-    }
-  });
+    });
 };

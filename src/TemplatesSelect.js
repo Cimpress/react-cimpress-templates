@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import VirtualizedSelect from 'react-virtualized-select';
-import {SelectWrapper} from '@cimpress/react-components';
+import { SelectWrapper } from '@cimpress/react-components';
 
-import {getI18nInstance} from './i18n';
-import {translate} from 'react-i18next';
+import { getI18nInstance } from './i18n';
+import { translate } from 'react-i18next';
 import StereotypeClient from 'stereotype-client';
 
-class TemplateSelector extends React.Component {
+class TemplatesSelect extends React.Component {
     constructor(props) {
         super(props);
 
@@ -31,10 +31,11 @@ class TemplateSelector extends React.Component {
                     fetchingTemplates: false
                 })
             })
-            .catch(e => {
+            .catch((err) => {
                 this.setState({
                     templates: null,
-                    fetchingTemplates: false
+                    fetchingTemplates: false,
+                    fetchingError: err
                 })
             });
     }
@@ -84,8 +85,8 @@ class TemplateSelector extends React.Component {
     }
 
     tt(key) {
-        let {t, language} = this.props;
-        return t(key, {lng: language});
+        let { t, language } = this.props;
+        return t(key, { lng: language });
     }
 
     render() {
@@ -97,7 +98,7 @@ class TemplateSelector extends React.Component {
             options={this.getOptions()}
             noResultsText={this.tt('no-results-found')}
             clearable={false}
-            onChange={(e, v) => this.handleChange(e, v)}
+            onChange={(option) => this.handleChange(option)}
             tether/>;
 
         if (!this.props.showAddNew) {
@@ -119,7 +120,7 @@ class TemplateSelector extends React.Component {
     }
 }
 
-TemplateSelector.propTypes = {
+TemplatesSelect.propTypes = {
     // silence eslint
     t: PropTypes.any,
     i18n: PropTypes.any,
@@ -136,12 +137,13 @@ TemplateSelector.propTypes = {
     label: PropTypes.string,
     showAddNew: PropTypes.bool,
     selectedTemplateId: PropTypes.string,
+    createNewUrl: PropTypes.string
 };
 
-TemplateSelector.defaultProps = {
+TemplatesSelect.defaultProps = {
     language: 'eng',
     showAddNew: true,
     createNewUrl: 'https://templatedesigner.cimpress.io/samples/productionEmail'
 };
 
-export default translate('translations', {i18n: getI18nInstance()})(TemplateSelector);
+export default translate('translations', { i18n: getI18nInstance() })(TemplatesSelect);
