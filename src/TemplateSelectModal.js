@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { getI18nInstance } from './i18n';
 import { translate } from 'react-i18next';
-import TemplatesSelect from './TemplateSelect';
+import TemplateSelect from './TemplateSelect';
 import { Portal } from 'react-portal'
 import { Modal } from '@cimpress/react-components'
 
@@ -60,11 +60,15 @@ class TemplateSelectModal extends React.Component {
                     </div>
                 }>
 
-                <TemplatesSelect
+                <TemplateSelect
                     language={this.props.language}
                     selectedTemplateId={this.state.selectedTemplateId}
                     accessToken={this.props.accessToken}
                     onChange={(templateId => this.setState({ selectedTemplateId: templateId }))}
+                    showAddNew={this.props.showAddNew}
+                    createNewUrl={this.props.createNewUrl}
+                    title={this.props.title}
+                    label={this.props.label}
                 />
             </Modal>
         </Portal>
@@ -93,6 +97,8 @@ TemplateSelectModal.propTypes = {
     label: PropTypes.string,
     showAddNew: PropTypes.bool,
     selectedTemplateId: PropTypes.string,
+
+    createNewUrl: PropTypes.string
 };
 
 TemplateSelectModal.defaultProps = {

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { getI18nInstance } from './i18n';
 import { translate } from 'react-i18next';
-import TemplatesSelectModal from './TemplateSelectModal';
+import TemplateSelectModal from './TemplateSelectModal';
 
 class TemplateSelectButton extends React.Component {
 
@@ -40,13 +40,17 @@ class TemplateSelectButton extends React.Component {
             <button key={0} className={'btn btn-default'} onClick={() => this.setState({ open: !this.state.open })}>
                 {this.tt('open-template-selection-modal')}
             </button>,
-            <TemplatesSelectModal
+            <TemplateSelectModal
                 key={1}
                 language={this.props.language}
                 open={this.state.open}
                 accessToken={this.props.accessToken}
                 onCancel={() => this.onCancel()}
                 onConfirm={(templateId) => this.onConfirm(templateId)}
+                createNewUrl={this.props.createNewUrl}
+                showAddNew={this.props.showAddNew}
+                title={this.props.title}
+                label={this.props.label}
             />
         ]
     }
@@ -68,8 +72,11 @@ TemplateSelectButton.propTypes = {
     // display
     language: PropTypes.string,
     label: PropTypes.string,
+    title: PropTypes.string,
     showAddNew: PropTypes.bool,
     selectedTemplateId: PropTypes.string,
+
+    createNewUrl: PropTypes.string
 };
 
 TemplateSelectButton.defaultProps = {

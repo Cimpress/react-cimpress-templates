@@ -113,7 +113,7 @@ class TemplateSelect extends React.Component {
                 <div className='col-sm-4'>
                     {this.tt('cant-find-why-dont-you-add-a-new-one')}
                     &nbsp;
-                    <a href={this.props.createNewUrl}>{this.tt('create-new')}</a>
+                    <a href={this.props.createNewUrl} target={'_blank'}>{this.tt('create-new')}</a>
                 </div>
             </div>
         )
