@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
-import TemplatesSelect from '../src/TemplatesSelect'
-import TemplatesSelectButton from '../src/TemplatesSelectButton'
+import TemplatesSelect from '../src/TemplateSelect'
+import TemplatesSelectButton from '../src/TemplateSelectButton'
 
 import auth from './auth/auth'
 

@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 
 import { getI18nInstance } from './i18n';
 import { translate } from 'react-i18next';
-import TemplatesSelectModal from './TemplatesSelectModal';
+import TemplatesSelectModal from './TemplateSelectModal';
 
-class TemplatesSelectButton extends React.Component {
+class TemplateSelectButton extends React.Component {
 
     constructor(props) {
         super(props);
@@ -53,7 +53,7 @@ class TemplatesSelectButton extends React.Component {
 }
 
 
-TemplatesSelectButton.propTypes = {
+TemplateSelectButton.propTypes = {
     // silence eslint
     t: PropTypes.any,
     i18n: PropTypes.any,
@@ -72,9 +72,9 @@ TemplatesSelectButton.propTypes = {
     selectedTemplateId: PropTypes.string,
 };
 
-TemplatesSelectButton.defaultProps = {
+TemplateSelectButton.defaultProps = {
     language: 'eng',
     showAddNew: true
 };
 
-export default translate('translations', { i18n: getI18nInstance() })(TemplatesSelectButton);
+export default translate('translations', { i18n: getI18nInstance() })(TemplateSelectButton);

@@ -7,7 +7,7 @@ import { getI18nInstance } from './i18n';
 import { translate } from 'react-i18next';
 import StereotypeClient from 'stereotype-client';
 
-class TemplatesSelect extends React.Component {
+class TemplateSelect extends React.Component {
     constructor(props) {
         super(props);
 
@@ -120,7 +120,7 @@ class TemplatesSelect extends React.Component {
     }
 }
 
-TemplatesSelect.propTypes = {
+TemplateSelect.propTypes = {
     // silence eslint
     t: PropTypes.any,
     i18n: PropTypes.any,
@@ -140,10 +140,10 @@ TemplatesSelect.propTypes = {
     createNewUrl: PropTypes.string
 };
 
-TemplatesSelect.defaultProps = {
+TemplateSelect.defaultProps = {
     language: 'eng',
     showAddNew: true,
     createNewUrl: 'https://templatedesigner.cimpress.io/samples/productionEmail'
 };
 
-export default translate('translations', { i18n: getI18nInstance() })(TemplatesSelect);
+export default translate('translations', { i18n: getI18nInstance() })(TemplateSelect);

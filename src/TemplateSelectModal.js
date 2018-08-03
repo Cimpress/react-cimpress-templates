@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 
 import { getI18nInstance } from './i18n';
 import { translate } from 'react-i18next';
-import TemplatesSelect from './TemplatesSelect';
+import TemplatesSelect from './TemplateSelect';
 import { Portal } from 'react-portal'
 import { Modal } from '@cimpress/react-components'
 
-import './TemplatesSelectModal.css'
+import './TemplateSelectModal.css'
 
-class TemplatesSelectModal extends React.Component {
+class TemplateSelectModal extends React.Component {
 
     constructor(props) {
         super(props);
@@ -72,7 +72,7 @@ class TemplatesSelectModal extends React.Component {
 }
 
 
-TemplatesSelectModal.propTypes = {
+TemplateSelectModal.propTypes = {
     // silence eslint
     t: PropTypes.any,
     i18n: PropTypes.any,
@@ -95,9 +95,9 @@ TemplatesSelectModal.propTypes = {
     selectedTemplateId: PropTypes.string,
 };
 
-TemplatesSelectModal.defaultProps = {
+TemplateSelectModal.defaultProps = {
     language: 'eng',
     showAddNew: true
 };
 
-export default translate('translations', { i18n: getI18nInstance() })(TemplatesSelectModal);
+export default translate('translations', { i18n: getI18nInstance() })(TemplateSelectModal);

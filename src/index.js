@@ -1,7 +1,11 @@
 import 'regenerator-runtime/runtime';
 
-import FulfillerSelect from './TemplatesSelect';
+import TemplateSelect from './TemplateSelect';
+import TemplateSelectModal from './TemplateSelectModal';
+import TemplateSelectButton from './TemplateSelectButton';
 
 export {
-    FulfillerSelect
+    TemplateSelect,
+    TemplateSelectModal,
+    TemplateSelectButton
 };
