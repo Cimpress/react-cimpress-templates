@@ -1,0 +1,51 @@
+{
+    "parserOptions": {
+        "ecmaVersion": 2017,
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "jsx": true
+        }
+    },
+    "globals": {
+        "qpsh": true,
+        "toastr": true,
+        "Auth0Lock": true
+    },
+    "env": {
+        "mocha": true,
+        "es6": true,
+        "jquery": true,
+        "browser": true,
+        "node": true
+    },
+    "plugins": [
+        "react"
+    ],
+    "extends": [
+        "eslint:recommended", 
+        "plugin:react/recommended"
+    ],
+    "rules": {
+        // "off", "warn", "error" : values to en/disable rules
+        "quotes": ["off", "single"],
+        "no-unused-vars": ["error", {"vars": "all", "args": "all", "argsIgnorePattern": "^(next|_+)","ignoreRestSiblings": false }],
+        "no-console": "error",
+        "semi": ["off", "always"],
+        "no-extra-semi": "warn",
+        "curly": ["warn", "all"],
+        "multiline-ternary": ["warn", "always"],
+        "operator-linebreak": ["warn", "before"],
+        "space-infix-ops": ["warn", {"int32Hint": true}],
+        "newline-per-chained-call": ["warn"],
+        "keyword-spacing": ["warn", { overrides: {} }],
+        "object-curly-spacing": ["warn", "always", {
+            "arraysInObjects": false,
+            "objectsInObjects": false
+        }],
+        "array-bracket-spacing": ["warn", "never"],
+        "no-undef": ["error"],
+        "brace-style": ["error", "1tbs"],
+        // React specific
+        "react/display-name": ["warn"]
+    }
+}

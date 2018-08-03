@@ -1,0 +1,46 @@
+{
+  "name": "react-cimpress-templates",
+  "version": "0.0.1",
+  "description": "Template selection",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack-dev-server --mode development --open",
+    "code-check": "eslint --ext .js --ext .jsx src",
+    "build": "node node_modules/grunt-cli/bin/grunt webpack && babel src -d lib --copy-files"
+  },
+  "author": "TrdelnikSquad@cimpress.com",
+  "license": "ISC",
+  "peerDependencies": {
+    "@cimpress/react-components": "^4.7.3",
+    "react": "^16.4.2",
+    "react-dom": "^16.4.2"
+  },
+  "devDependencies": {
+    "@cimpress/react-components": "^4.7.3",
+    "auth0-sso-login": "^3.0.115",
+    "babel-cli": "^6.26.0",
+    "babel-loader": "^7.1.5",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "cimpress-translations-webpack-plugin": "^1.1.9",
+    "css-loader": "^1.0.0",
+    "grunt-cli": "^1.2.0",
+    "html-webpack-plugin": "^3.2.0",
+    "jwt-decode": "^2.2.0",
+    "react": "^16.4.2",
+    "react-dom": "^16.4.2",
+    "react-virtualized-select": "^3.1.3",
+    "style-loader": "^0.21.0",
+    "webpack": "^4.16.4",
+    "webpack-cli": "^3.1.0",
+    "webpack-dev-server": "^3.1.5"
+  },
+  "dependencies": {
+    "@babel/preset-env": "^7.0.0-beta.55",
+    "@babel/preset-react": "^7.0.0-beta.55",
+    "i18next": "^11.5.0",
+    "react-i18next": "^7.10.1",
+    "react-portal": "^4.1.5",
+    "stereotype-client": "^1.2.22"
+  }
+}
