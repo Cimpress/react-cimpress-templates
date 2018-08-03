@@ -1,6 +1,6 @@
 {
   "name": "react-cimpress-templates",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Template selection",
   "main": "index.js",
   "scripts": {
@@ -8,6 +8,10 @@
     "code-check": "eslint --ext .js --ext .jsx src",
     "build": "node node_modules/grunt-cli/bin/grunt webpack && babel src -d lib --copy-files"
   },
+  "main": "./lib/index.js",
+  "files": [
+    "lib"
+  ],
   "author": "TrdelnikSquad@cimpress.com",
   "license": "ISC",
   "peerDependencies": {
