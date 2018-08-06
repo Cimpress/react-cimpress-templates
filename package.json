@@ -13,6 +13,14 @@
     "lib"
   ],
   "author": "TrdelnikSquad@cimpress.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Cimpress/react-cimpress-templates.git"
+  },
+  "homepage": "https://github.com/Cimpress/react-cimpress-templates#readme",
+  "bugs": {
+    "url": "https://github.com/Cimpress/react-cimpress-templates/issues"
+  },
   "license": "ISC",
   "peerDependencies": {
     "react": "^15.0.0 || ^16.0.0",
