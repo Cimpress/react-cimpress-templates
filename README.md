@@ -3,7 +3,8 @@ React components to help selecting Cimpress templates
 
 ## Overview 
 
-    TBD
+The purpose of this component is to facilitate integration of Cimpress templates selection in your application.
+
 
 ## Usage
 
@@ -12,10 +13,20 @@ Install the package:
     npm install --save react-cimpress-templates
 
   
-Add to your code
+Depending on your use case, you can add the following:
 
-    TBD
+* Using standard template selection
+
+        <TemplatesSelect
+                accessToken={auth.getAccessToken()}
+                selectedTemplateId={store.get('lastTemplateId')}
+                onChange={templateId => store.set({ lastTemplateId: templateId })}/>
+
+* Using a button to open a modal with template selection 
         
+        <TemplatesSelectButton
+                accessToken={auth.getAccessToken()}
+                onConfirm={templateId => store.set({ lastTemplateId: templateId })}/>
 
 ## Development
 
