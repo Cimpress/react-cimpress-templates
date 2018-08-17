@@ -2,13 +2,14 @@
   "name": "react-cimpress-templates",
   "version": "0.0.4",
   "description": "Template selection",
-  "main": "index.js",
+  "main": "./lib/index.js",
   "scripts": {
-    "start": "webpack-dev-server --mode development --open",
+    "start": "start-storybook -p 3000",
+    "storybook": "start-storybook -p 3000",
+    "build-storybook": "build-storybook",
     "code-check": "eslint --ext .js --ext .jsx src",
     "build": "node node_modules/grunt-cli/bin/grunt webpack && babel src -d lib --copy-files"
   },
-  "main": "./lib/index.js",
   "files": [
     "lib"
   ],
@@ -31,6 +32,11 @@
     "@babel/preset-env": "^7.0.0-beta.55",
     "@babel/preset-react": "^7.0.0-beta.55",
     "@cimpress/react-components": "^4.7.3",
+    "@sambego/storybook-state": "^1.2.0",
+    "@storybook/addon-actions": "^4.0.0-alpha.16",
+    "@storybook/addon-links": "^4.0.0-alpha.16",
+    "@storybook/addons": "^4.0.0-alpha.16",
+    "@storybook/react": "^4.0.0-alpha.16",
     "auth0-sso-login": "^3.0.115",
     "aws-sdk": "^2.286.2",
     "babel-cli": "^6.26.0",

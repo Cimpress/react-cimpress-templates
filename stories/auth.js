@@ -1,7 +1,7 @@
-import SsoAuth from 'auth0-sso-login'
+import SsoAuth from 'auth0-sso-login';
 import jwtDecode from 'jwt-decode';
-import * as url from 'url'
-import * as querystring from 'querystring'
+import * as url from 'url';
+import * as querystring from 'querystring';
 
 const CLIENT_ID = 'Wtq3wMftZJJWykxb0zuAGEfOqW7NG6vz';
 
@@ -16,42 +16,40 @@ class Auth {
             clientId: CLIENT_ID,
             logoutRedirectUri: window.location.origin,
             hooks: {
-                profileRefreshed: value => {
+                profileRefreshed: (value) => {
                     this.profile = value;
-                    this.reportIdentity();
                     localStorage.setItem('profile', JSON.stringify(this.profile));
                 },
                 tokenRefreshed: () => {
                     this.accessToken = this.ssoAuth.getIdToken();
-                    this.reportIdentity();
                     localStorage.setItem('accessToken', this.accessToken);
-                }
-            }
-        })
+                },
+            },
+        });
     }
 
     getUserId() {
         let t = this.getAccessToken();
-        if ( t ) {
-            return JSON.parse(atob(t.split('.')[1])).sub
+        if (t) {
+            return JSON.parse(atob(t.split('.')[1])).sub;
         }
         return null;
     }
 
     getAccessToken() {
         // actually returns an access token
-        return this.accessToken
+        return this.accessToken;
     }
 
     fastSafeTokenAccess() {
         let accessToken = this.getAccessToken();
-        if ( accessToken ) {
-            return Promise.resolve(accessToken)
+        if (accessToken && this.isValidToken(accessToken)) {
+            return Promise.resolve(accessToken);
         }
 
         return this.login()
             .then(() => this.getAccessToken())
-            .catch(() => null)
+            .catch(() => null);
     }
 
     getProfile() {
@@ -64,19 +62,18 @@ class Auth {
      */
     isLoggedIn() {
         let accessToken = this.ssoAuth.getIdToken();
-        if ( accessToken ) {
+        if (accessToken) {
             let decodedToken = jwtDecode(accessToken);
             accessToken = decodedToken.exp > (Date.now() / 1000)
                 ? accessToken
                 : null;
-            this.reportIdentity();
         }
         return !!accessToken;
     }
 
     isValidToken(accessToken) {
         let isValid = false;
-        if ( accessToken ) {
+        if (accessToken) {
             try {
                 let decodedToken = jwtDecode(accessToken);
                 isValid = decodedToken.exp > (Date.now() / 1000)
@@ -89,46 +86,36 @@ class Auth {
         return isValid;
     }
 
-    reportIdentity() {
-        let profile = this.getProfile();
-        if ( profile && window.FS ) {
-            window.FS.identify(this.getUserId(), {
-                displayName: profile.name,
-                email: profile.email
-            })
-        }
-    }
-
     login(nextUrl, forceTokenRefresh = false) {
         // ensure that requests to subpages are not lost if a redirection to root was already scheduled during a previous visit
-        if ( localStorage.getItem('redirectUri') === window.location.origin + '/' ) {
-            localStorage.removeItem('redirectUri')
+        if (localStorage.getItem('redirectUri') === window.location.origin + '/') {
+            localStorage.removeItem('redirectUri');
         }
 
         const extraConfiguration = {
             enabledHostedLogin: true,
             forceTokenRefresh: forceTokenRefresh,
-            redirectUri: window.location.href
+            redirectUri: window.location.href,
         };
 
         return this.ssoAuth.ensureLoggedIn(extraConfiguration)
             .then(() => {
-                if ( !this.isLoggedIn() ) {
-                    throw new Error('Authentication unsuccessful.')
+                if (!this.isLoggedIn()) {
+                    throw new Error('Authentication unsuccessful.');
                 }
                 // if a redirect didn't fire after logging in (e.g., because we blocked
                 // the redirect to root), we might need to manually remove Auth0 state
                 // from the query string
                 let currentUrl = url.parse(window.location.href);
                 let qs = querystring.parse(currentUrl.search);
-                if ( qs.code || qs.state ) {
+                if (qs.code || qs.state) {
                     delete qs.code;
                     delete qs.state;
                     currentUrl.search = querystring.stringify(qs);
                     window.location.href = window.location.origin
                         + window.location.pathname + currentUrl.search;
                 }
-            })
+            });
     }
 
     logout() {
@@ -136,7 +123,7 @@ class Auth {
         localStorage.removeItem('profile');
         delete this.profile;
         delete this.accessToken;
-        return Promise.resolve(this.ssoAuth.logout())
+        return Promise.resolve(this.ssoAuth.logout());
     }
 }
 
