@@ -7,7 +7,7 @@ import {Portal} from 'react-portal';
 import {Modal, TextField, Alert} from '@cimpress/react-components';
 
 import DefaultButton from './DefaultButton';
-import Loading from '../internal/Loading';
+import Loading from './Loading';
 import {cloneTemplate, createTemplate} from '../apis/stereotype.api';
 
 class NewTemplateModal extends React.Component {
