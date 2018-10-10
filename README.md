@@ -15,6 +15,50 @@ Install the package:
   
 Depending on your use case, you can add the following:
 
+* Using extended template item / field
+        <TemplateItem
+                /* Component language */
+                language={'eng'}
+                
+                /* Auth0 access token required to make service calls to retrieve data */
+                accessToken={auth.getAccessToken()}
+                
+                /* The template to show (selected, active, etc...)
+                template={{
+                    templateId: 'FTPAdaptorX',
+                }}
+
+                /* Callback to be called when the current template is changed by user */
+                onTemplateChanged={(templateId) => {
+                    // do something
+                }}
+
+                /* Callback to be called a new template is created by user */
+                onTemplateCreated={(newTemplateId) => {
+                    // do something
+                }}
+
+                /* Filter only templates with ids starting with a fixed string */
+                templateSelectionPrefix={'FTPAdaptor'}
+                
+                /* Automatically prepend the `templateSelectionPrefix` when creating a new template */
+                autoPrefixTemplateWhenCreating={true}
+                
+                /* Automatically redirect to Template Designer when a new template is created */
+                autoRedirectAfterCreation={true}
+                
+                /* JSON that should be forwarded to Template Desinger when editing a template */
+                payload={payloadData}
+
+                /* The following properties define whether the respective buttons should be shown */
+                withCreateBlankButton={true}
+                withComments={true}
+                withAccessButton={true}
+                withEditButton={true}
+                withCloneButton={true}
+            />
+
+
 * Using standard template selection
 
         <TemplatesSelect
