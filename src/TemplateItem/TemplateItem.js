@@ -270,6 +270,8 @@ TemplateItem.propTypes = {
     autoPrefixTemplateWhenCreating: PropTypes.bool,
     autoRedirectAfterCreation: PropTypes.bool,
 
+    payload: PropTypes.object,
+
     withComments: PropTypes.bool,
     withCreateBlankButton: PropTypes.bool,
     withPreviewButton: PropTypes.bool,

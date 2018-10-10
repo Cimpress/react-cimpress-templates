@@ -11,13 +11,13 @@ try {
     console.warn('If you want to download the translations files, run `npm run build` (checkout the readme file for details)');
 }
 
-let i18n_instance = null;
+let i18nInstance = null;
 
 function getI18nInstance() {
-    if (!i18n_instance) {
-        i18n_instance = i18n.createInstance();
+    if (!i18nInstance) {
+        i18nInstance = i18n.createInstance();
 
-        i18n_instance
+        i18nInstance
             .use(reactI18nextModule)
             .init({
 
@@ -40,7 +40,7 @@ function getI18nInstance() {
             });
     }
 
-    return i18n_instance;
+    return i18nInstance;
 }
 
 export {

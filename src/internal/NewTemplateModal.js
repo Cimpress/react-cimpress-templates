@@ -27,6 +27,12 @@ class NewTemplateModal extends React.Component {
     }
 
     onCancel() {
+        this.setState({
+            executing: false,
+            error: undefined,
+            newTemplateId: '',
+        });
+
         if (this.props.onCancel) {
             this.props.onCancel();
         }
@@ -49,6 +55,7 @@ class NewTemplateModal extends React.Component {
                 this.setState({
                     executing: false,
                     error: undefined,
+                    newTemplateId: '',
                 });
 
                 if (this.props.onConfirm) {
