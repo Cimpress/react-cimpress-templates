@@ -1,0 +1,36 @@
+.rct.template-item {
+    padding: 10px 16px 10px 10px;
+    line-height: 25px;
+    border: 1px solid #c4cdd6;
+    border-radius: 4px;
+    background-color: #fff;
+    position: relative;
+}
+
+.rct .comment-count-badge {
+    right: -7px;
+    top: 2px;
+}
+
+.rct .comment-drawer-button {
+    padding-top: 0;
+    padding-left: 5px;
+    margin-top: 0 !important;
+    font-size: 16px;
+}
+
+.template-label {
+    top: 1px;
+    font-size: 12px;
+    z-index: 5;
+    color: #8090a2;
+    font-weight: 400;
+    position: absolute;
+    left: 44px;
+}
+
+.template-name {
+    position: absolute;
+    left: 44px;
+    bottom: 3px;
+}

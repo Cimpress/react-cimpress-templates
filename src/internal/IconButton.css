@@ -1,0 +1,42 @@
+a.rct.icon-button {
+    text-decoration: none;
+    padding: 8px;
+    margin-top: 12px;
+    border-radius: 2px;
+    border: 1px solid transparent;
+}
+
+.rct a.icon-button {
+    cursor: pointer;
+}
+
+a.rct.icon-button.no-side-margin {
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+a.rct.icon-button svg {
+    fill: #4F5D75;
+}
+
+a.rct.icon-button svg:hover {
+    fill: rgb(0, 136, 169);
+}
+
+.rct a.icon-button.disabled svg,
+.rct a.icon-button.disabled svg:hover {
+    fill: #c4cdd6;
+    cursor: auto;
+}
+
+.rct .ij-icon.ij-icon-2x {
+    margin-top: 3px;
+    width: 24px;
+    height: 24px;
+}
+
+.rct .ij-icon.ij-icon-2x svg {
+    webkit-transform: scale(calc(24 / 24));
+    -ms-transform: scale(calc(24 / 24));
+    transform: scale(calc(24 / 24));
+}

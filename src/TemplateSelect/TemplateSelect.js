@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import VirtualizedSelect from 'react-virtualized-select';
-import { SelectWrapper } from '@cimpress/react-components';
+import {SelectWrapper} from '@cimpress/react-components';
 
-import { getI18nInstance } from './i18n';
-import { translate } from 'react-i18next';
-import StereotypeClient from 'stereotype-client';
+import {getI18nInstance} from '../i18n';
+import {translate} from 'react-i18next';
+import {listTemplates} from '../apis/stereotype.api';
 
 class TemplateSelect extends React.Component {
     constructor(props) {
@@ -13,36 +13,34 @@ class TemplateSelect extends React.Component {
 
         this.state = {
             templates: this.props.templates,
-            fetchingTemplates: false
+            fetchingTemplates: false,
         };
     }
 
     fetchTemplates() {
-
         this.setState({
-            fetchingTemplates: true
+            fetchingTemplates: true,
         });
 
-        let client = new StereotypeClient(this.props.accessToken);
-        return client.listTemplates()
-            .then(templates => {
+        listTemplates(this.props.accessToken, this.props.templateSelectionPrefix)
+            .then((templates) => {
                 this.setState({
                     templates: templates,
-                    fetchingTemplates: false
-                })
+                    fetchingTemplates: false,
+                });
             })
             .catch((err) => {
                 this.setState({
                     templates: null,
                     fetchingTemplates: false,
-                    fetchingError: err
-                })
+                    fetchingError: err,
+                });
             });
     }
 
     componentDidUpdate(prevProps) {
         if (prevProps.accessToken !== this.props.accessToken && this.props.accessToken) {
-            this.fetchTemplates(this.props.accessToken)
+            this.fetchTemplates(this.props.accessToken);
         }
     }
 
@@ -51,12 +49,12 @@ class TemplateSelect extends React.Component {
             return;
         }
 
-        this.fetchTemplates(this.props.accessToken)
+        this.fetchTemplates(this.props.accessToken);
     }
 
     handleChange(option) {
         if (this.props.onChange) {
-            this.props.onChange(option.value)
+            this.props.onChange(option.value);
         }
     }
 
@@ -67,33 +65,33 @@ class TemplateSelect extends React.Component {
             if (this.state.fetchingTemplates) {
                 return [{
                     label: this.tt('loading'),
-                    value: '-1'
+                    value: '-1',
                 }];
             }
 
             return [{
                 label: this.tt('no-data'),
-                value: '-1'
+                value: '-1',
             }];
         }
 
 
-        return templates.map(t => ({
-            label: t.templateId,
-            value: t.templateId
-        }));
+        return templates
+            .map((t) => ({
+                label: t.templateId,
+                value: t.templateId,
+            }));
     }
 
     tt(key) {
-        let { t, language } = this.props;
-        return t(key, { lng: language });
+        let {t, language} = this.props;
+        return t(key, {lng: language});
     }
 
     render() {
-
         let select = <SelectWrapper
             selectedSelect={VirtualizedSelect}
-            label={this.props.label || this.tt('template-label')}
+            label={this.props.label || this.tt('template-select-label')}
             value={this.props.selectedTemplateId}
             options={this.getOptions()}
             noResultsText={this.tt('no-results-found')}
@@ -116,7 +114,7 @@ class TemplateSelect extends React.Component {
                     <a href={this.props.createNewUrl} target={'_blank'}>{this.tt('create-new')}</a>
                 </div>
             </div>
-        )
+        );
     }
 }
 
@@ -128,6 +126,7 @@ TemplateSelect.propTypes = {
     // Either access token OR a list of templates to display
     accessToken: PropTypes.string,
     templates: PropTypes.array,
+    templateSelectionPrefix: PropTypes.string,
 
     // functions and buttons
     onChange: PropTypes.func,
@@ -137,13 +136,13 @@ TemplateSelect.propTypes = {
     label: PropTypes.string,
     showAddNew: PropTypes.bool,
     selectedTemplateId: PropTypes.string,
-    createNewUrl: PropTypes.string
+    createNewUrl: PropTypes.string,
 };
 
 TemplateSelect.defaultProps = {
     language: 'eng',
     showAddNew: true,
-    createNewUrl: 'https://templatedesigner.cimpress.io/samples/productionEmail'
+    createNewUrl: 'https://templatedesigner.cimpress.io/samples/productionEmail',
 };
 
-export default translate('translations', { i18n: getI18nInstance() })(TemplateSelect);
+export default translate('translations', {i18n: getI18nInstance()})(TemplateSelect);
