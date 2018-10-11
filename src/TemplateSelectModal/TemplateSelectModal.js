@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {getI18nInstance} from './i18n';
+import {getI18nInstance} from '../i18n';
 import {translate} from 'react-i18next';
-import TemplateSelect from './TemplateSelect';
+import TemplateSelect from '../TemplateSelect/TemplateSelect';
 import {Portal} from 'react-portal';
 import {Modal} from '@cimpress/react-components';
 
 import './TemplateSelectModal.css';
-import DefaultButton from './internal/DefaultButton';
+import DefaultButton from '../internal/DefaultButton';
 
 
 class TemplateSelectModal extends React.Component {

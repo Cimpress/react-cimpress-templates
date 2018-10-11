@@ -7,9 +7,8 @@ import IconButton from '../internal/IconButton';
 import DefaultButton from '../internal/DefaultButton';
 import {UsersTable} from 'react-cimpress-users';
 import {getTemplateAdminGroup} from '../apis/coam.api';
-
 import {getI18nInstance} from '../i18n';
-import TemplateSelectModal from '../TemplateSelectModal';
+import TemplateSelectModal from '../TemplateSelectModal/TemplateSelectModal';
 import NewTemplateModal from '../internal/NewTemplateModal';
 
 import './TemplateItem.css';

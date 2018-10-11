@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import VirtualizedSelect from 'react-virtualized-select';
 import {SelectWrapper} from '@cimpress/react-components';
 
-import {getI18nInstance} from './i18n';
+import {getI18nInstance} from '../i18n';
 import {translate} from 'react-i18next';
-import {listTemplates} from './apis/stereotype.api';
+import {listTemplates} from '../apis/stereotype.api';
 
 class TemplateSelect extends React.Component {
     constructor(props) {

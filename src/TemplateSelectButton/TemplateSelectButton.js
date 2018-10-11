@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {getI18nInstance} from './i18n';
+import {getI18nInstance} from '../i18n';
 import {translate} from 'react-i18next';
-import TemplateSelectModal from './TemplateSelectModal';
+import TemplateSelectModal from '../TemplateSelectModal/TemplateSelectModal';
 
 class TemplateSelectButton extends React.Component {
     constructor(props) {

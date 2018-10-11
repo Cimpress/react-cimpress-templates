@@ -10,6 +10,7 @@ install:
 - npm install
 script:
 - npm run code-check
+- npm run translate
 - npm run build
 deploy:
   provider: npm

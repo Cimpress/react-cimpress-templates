@@ -5,8 +5,8 @@ import {State, Store} from '@sambego/storybook-state';
 import {withKnobs, text, boolean} from '@storybook/addon-knobs/react';
 
 import Authenticated from './Authenticated';
-import TemplateSelect from '../src/TemplateSelect';
-import TemplateSelectButton from '../src/TemplateSelectButton';
+import TemplateSelect from '../src/TemplateSelect/TemplateSelect';
+import TemplateSelectButton from '../src/TemplateSelectButton/TemplateSelectButton';
 import auth from './auth';
 import TemplateItem from '../src/TemplateItem/TemplateItem';
 
