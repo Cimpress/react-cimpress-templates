@@ -16,6 +16,7 @@ Install the package:
 Depending on your use case, you can add the following:
 
 * Using extended template item / field
+
         <TemplateItem
                 /* Component language */
                 language={'eng'}
