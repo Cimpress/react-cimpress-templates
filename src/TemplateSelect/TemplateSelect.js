@@ -22,7 +22,7 @@ class TemplateSelect extends React.Component {
             fetchingTemplates: true,
         });
 
-        listTemplates(this.props.accessToken, this.props.templateSelectionPrefix)
+        listTemplates(this.props.accessToken, this.props.filterTemplatesByTag ? {key: this.props.filterTemplatesByTag} : undefined)
             .then((templates) => {
                 this.setState({
                     templates: templates,
@@ -40,7 +40,12 @@ class TemplateSelect extends React.Component {
 
     componentDidUpdate(prevProps) {
         if (prevProps.accessToken !== this.props.accessToken && this.props.accessToken) {
-            this.fetchTemplates(this.props.accessToken);
+            if (!this.props.templates) {
+                this.fetchTemplates(this.props.accessToken);
+            }
+        }
+        if (JSON.stringify(prevProps.templates) !== JSON.stringify(this.props.templates)) {
+            this.setState({templates: this.props.templates});
         }
     }
 
@@ -48,8 +53,9 @@ class TemplateSelect extends React.Component {
         if (!this.props.accessToken) {
             return;
         }
-
-        this.fetchTemplates(this.props.accessToken);
+        if (!this.props.templates) {
+            this.fetchTemplates(this.props.accessToken);
+        }
     }
 
     handleChange(option) {
@@ -75,10 +81,9 @@ class TemplateSelect extends React.Component {
             }];
         }
 
-
         return templates
             .map((t) => ({
-                label: t.templateId,
+                label: t.templateName || t.templateId,
                 value: t.templateId,
             }));
     }
@@ -126,7 +131,7 @@ TemplateSelect.propTypes = {
     // Either access token OR a list of templates to display
     accessToken: PropTypes.string,
     templates: PropTypes.array,
-    templateSelectionPrefix: PropTypes.string,
+    filterTemplatesByTag: PropTypes.string,
 
     // functions and buttons
     onChange: PropTypes.func,

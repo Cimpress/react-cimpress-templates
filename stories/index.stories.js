@@ -18,36 +18,37 @@ storiesOf('TemplateItem', module)
     .addDecorator(withKnobs)
     .add('Basic use', () => <Authenticated>
         <State store={store}>
-            <div className={'row'}>
-                <div className={'col-md-6'}>
-                    <TemplateItem
-                        language={'eng'}
-                        accessToken={auth.getAccessToken()}
-                        template={{
-                            templateId: store.get('lastTemplateId'),
-                        }}
+            {(state) => {
+                return <div className={'row'}>
+                    <div className={'col-md-6'}>
+                        <TemplateItem
+                            language={'eng'}
+                            accessToken={auth.getAccessToken()}
+                            templateId={state.lastTemplateId}
 
-                        onTemplateChanged={(templateId) => {
-                            store.set({lastTemplateId: templateId});
-                        }}
+                            onTemplateChanged={(templateId) => {
+                                store.set({lastTemplateId: templateId});
+                            }}
 
-                        onTemplateCreated={(newTemplateId) => {
-                            store.set({lastTemplateId: newTemplateId});
-                        }}
+                            onTemplateCreated={(newTemplateId) => {
+                                store.set({lastTemplateId: newTemplateId});
+                            }}
 
-                        templateSelectionPrefix={text('templateSelectionPrefix', 'FTPAdaptor')}
-                        autoPrefixTemplateWhenCreating={boolean('autoPrefixTemplateWhenCreating', true)}
-                        autoRedirectAfterCreation={boolean('autoRedirectAfterCreation', true)}
+                            filterTemplatesByTag={text('templateSelectionPrefix', 'urn:fileBasedAdaptor:template')}
+                            autoTagTemplateWhenCreating={boolean('autoTagTemplateWhenCreating', true)}
+                            autoRedirectAfterCreation={boolean('autoRedirectAfterCreation', false)}
+                            autoGrantReadToPrincipalWhenCreating={text('autoGrantReadToPrincipalWhenCreating', 'waad|7Q4pxFe7EGs_VN5XuG1fMswSspASn6DpUecPJAIas8U')}
 
-                        withCreateBlankButton={boolean('withComments', true)}
-                        withComments={boolean('withComments', true)}
-                        withPreviewButton={boolean('withPreviewButton', false)}
-                        withAccessButton={boolean('withAccessButton', true)}
-                        withEditButton={boolean('withEditButton', true)}
-                        withCloneButton={boolean('withCloneButton', true)}
-                    />
-                </div>
-            </div>
+                            withCreateBlankButton={boolean('withComments', true)}
+                            withComments={boolean('withComments', true)}
+                            withPreviewButton={boolean('withPreviewButton', false)}
+                            withAccessButton={boolean('withAccessButton', true)}
+                            withEditButton={boolean('withEditButton', true)}
+                            withCloneButton={boolean('withCloneButton', true)}
+                        />
+                    </div>
+                </div>;
+            }}
         </State>
     </Authenticated>);
 

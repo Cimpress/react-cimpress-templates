@@ -73,8 +73,9 @@ class TemplateSelectModal extends React.Component {
                 <TemplateSelect
                     language={this.props.language}
                     selectedTemplateId={this.state.selectedTemplateId}
-                    templateSelectionPrefix={this.props.templateSelectionPrefix}
+                    filterTemplatesByTag={this.props.filterTemplatesByTag}
                     accessToken={this.props.accessToken}
+                    templates={this.props.templates}
                     onChange={((templateId) => this.setState({selectedTemplateId: templateId}))}
                     showAddNew={this.props.showAddNew}
                     createNewUrl={this.props.createNewUrl}
@@ -92,9 +93,10 @@ TemplateSelectModal.propTypes = {
     t: PropTypes.any,
     i18n: PropTypes.any,
 
-    // Either access token OR a list of templates to display
+    // Either access token (+possibly filter) OR a list of templates to display
     accessToken: PropTypes.string,
-    templateSelectionPrefix: PropTypes.string,
+    filterTemplatesByTag: PropTypes.string,
+    templates: PropTypes.array,
 
     // functions and buttons
     onCancel: PropTypes.func,

@@ -32,6 +32,31 @@ const getGroups = (accessToken, resourceId) => {
     return exec(data).then((r) => r.groups);
 };
 
+const patchUserRoles = (accessToken, groupId, principal, rolesChanges) => {
+    let data = defaultRequestData(accessToken, {
+        url: `/v1/groups/${groupId}/members/${encodeURIComponent(principal)}/roles`,
+        method: 'PATCH',
+        data: rolesChanges,
+    });
+
+    return exec(data);
+};
+
+const addGroupMember = (accessToken, groupId, principal, isAdmin) => {
+    let data = defaultRequestData(accessToken, {
+        url: `/v1/groups/${groupId}/members`,
+        method: 'PATCH',
+        data: {
+            'add': [{
+                is_admin: !!isAdmin,
+                principal: principal,
+            }],
+        },
+    });
+
+    return exec(data);
+};
+
 const getTemplateAdminGroup = (accessToken, templateId) => {
     return getGroups(accessToken, templateId)
         .then((groups) => {
@@ -48,8 +73,21 @@ const getTemplateAdminGroup = (accessToken, templateId) => {
         });
 };
 
+const grantReadToPrincipal = (accessToken, templateId, principal) => {
+    return getTemplateAdminGroup(accessToken, templateId)
+        .then((groupId) => {
+            if (!groupId) {
+                return Promise.reject('Failed to retrieve template COAM group.');
+            }
+            return addGroupMember(accessToken, groupId, principal, false)
+                .then(() => patchUserRoles(accessToken, groupId, principal, {'add': ['Template Reader']})
+                );
+        });
+};
+
 
 export {
     getGroups,
+    grantReadToPrincipal,
     getTemplateAdminGroup,
 };

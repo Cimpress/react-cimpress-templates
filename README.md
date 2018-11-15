@@ -24,10 +24,8 @@ Depending on your use case, you can add the following:
                 /* Auth0 access token required to make service calls to retrieve data */
                 accessToken={auth.getAccessToken()}
                 
-                /* The template to show (selected, active, etc...)
-                template={{
-                    templateId: 'FTPAdaptorX',
-                }}
+                /* The template to show (selected, active, etc...) */
+                templateId='9318-231-723-61823'
 
                 /* Callback to be called when the current template is changed by user */
                 onTemplateChanged={(templateId) => {
@@ -39,12 +37,15 @@ Depending on your use case, you can add the following:
                     // do something
                 }}
 
-                /* Filter only templates with ids starting with a fixed string */
-                templateSelectionPrefix={'FTPAdaptor'}
+                /* Filter only templates having specific tag key (eg. urn:fileBasedAdaptor:template) */
+                filterTemplatesByTag='urn:fileBasedAdaptor:template',
+ 
+                /* Automatically assign the `filterTemplatesByTag` tag when creating a new template */    
+                autoTagTemplateWhenCreating={true},
                 
-                /* Automatically prepend the `templateSelectionPrefix` when creating a new template */
-                autoPrefixTemplateWhenCreating={true}
-                
+                /* Automatically grant read permission to newly created templates for a fixed principal */
+                autoGrantReadToPrincipalWhenCreating={principal}
+                                
                 /* Automatically redirect to Template Designer when a new template is created */
                 autoRedirectAfterCreation={true}
                 

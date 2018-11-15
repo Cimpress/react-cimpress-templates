@@ -44,14 +44,16 @@ class NewTemplateModal extends React.Component {
             error: undefined,
         });
 
-        const newTemplateId = (this.props.prefixTemplateAtCreation || '') + this.state.newTemplateId;
+        const templateName = this.state.newTemplateId;
 
         const createPromise = (this.props.creationType === 'clone')
-            ? cloneTemplate(this.props.accessToken, this.props.oldTemplateId, newTemplateId)
-            : createTemplate(this.props.accessToken, newTemplateId, this.props.blankTemplateContentType);
+            ? cloneTemplate(this.props.accessToken, this.props.oldTemplateId, templateName,
+                this.props.autoTagTemplateWhenCreatingWith ? {key: this.props.autoTagTemplateWhenCreatingWith} : undefined )
+            : createTemplate(this.props.accessToken, this.props.blankTemplateContentType, templateName,
+                this.props.autoTagTemplateWhenCreatingWith ? {key: this.props.autoTagTemplateWhenCreatingWith} : undefined);
 
         createPromise
-            .then((x) => {
+            .then((template) => {
                 this.setState({
                     executing: false,
                     error: undefined,
@@ -59,11 +61,12 @@ class NewTemplateModal extends React.Component {
                 });
 
                 if (this.props.onConfirm) {
-                    this.props.onConfirm(this.props.oldTemplateId, newTemplateId);
+                    this.props.onConfirm(this.props.oldTemplateId, template);
                 }
             })
             .catch((er) => {
                 // eslint-disable-next-line no-console
+                console.log('er', er);
                 this.setState({
                     executing: false,
                     error: er,
@@ -116,7 +119,7 @@ class NewTemplateModal extends React.Component {
                         <Alert type={'danger'} message={this.state.error.message
                             ? this.state.error.message
                             : typeof this.state.error === 'string'
-                                ? this.state.error
+                                ? JSON.stringify(this.state.error)
                                 : JSON.stringify(this.state.error)} />
                     </Fragment>
                     : null}
@@ -146,7 +149,7 @@ NewTemplateModal.propTypes = {
     oldTemplateId: PropTypes.string,
     newTemplateId: PropTypes.string,
     creationType: PropTypes.string, // .oneOf(['blank','clone']),
-    prefixTemplateAtCreation: PropTypes.string,
+    autoTagTemplateWhenCreatingWith: PropTypes.string,
     blankTemplateContentType: PropTypes.string,
 
     // display
@@ -166,7 +169,6 @@ NewTemplateModal.propTypes = {
 NewTemplateModal.defaultProps = {
     language: 'eng',
     showAddNew: true,
-    prefixTemplateAtCreation: '',
     creationType: 'clone',
     blankTemplateContentType: 'text/handlebars',
 };

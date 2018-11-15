@@ -57,7 +57,7 @@ IconButton.propTypes = {
 };
 
 IconButton.defaultProps = {
-    iconSize: '2x',
+    iconSize: 'lg',
 };
 
 export default IconButton;

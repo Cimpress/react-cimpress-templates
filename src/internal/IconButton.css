@@ -28,15 +28,3 @@ a.rct.icon-button svg:hover {
     fill: #c4cdd6;
     cursor: auto;
 }
-
-.rct .ij-icon.ij-icon-2x {
-    margin-top: 3px;
-    width: 24px;
-    height: 24px;
-}
-
-.rct .ij-icon.ij-icon-2x svg {
-    webkit-transform: scale(calc(24 / 24));
-    -ms-transform: scale(calc(24 / 24));
-    transform: scale(calc(24 / 24));
-}

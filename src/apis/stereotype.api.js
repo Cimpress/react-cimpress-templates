@@ -1,66 +1,103 @@
 import StereotypeClient from 'stereotype-client';
+import TagliatelleClient from 'cimpress-tagliatelle';
 
+const tagKeyTemplateName = 'urn:stereotype:templateName';
+const tagKeyTemplateType = 'urn:stereotype:templateType';
 
-function listTemplates(accessToken, filterByPrefix) {
-    const client = new StereotypeClient('Bearer ' + accessToken);
-
-    return client.listTemplates()
-        .then((list) => {
-            if (filterByPrefix) {
-                return Promise.resolve(list.filter((t) => t.templateId.startsWith((filterByPrefix))));
-            }
-            return Promise.resolve(list);
-        });
+function getTemplateUri(templateId) {
+    return `https://stereotype.trdlnk.cimpress.io/v1/templates/${templateId}`;
 }
 
-function cloneTemplate(accessToken, fromTemplateId, newTemplateId) {
+function listTemplates(accessToken, customTag) {
     const client = new StereotypeClient('Bearer ' + accessToken);
+    const tagliatelle = new TagliatelleClient();
 
-    return client
-        .getTemplate(newTemplateId)
-        .then(() => {
-            return Promise.reject(`Template ${newTemplateId} already exists!`);
-        })
-        .catch((error) => {
-            // Already there
-            if (error.response && error.response.status === 403) {
-                return Promise.reject(`Template ${newTemplateId} already exists!`);
-            }
+    const tagKeys = [tagKeyTemplateName];
+    if (customTag) {
+        tagKeys.push(customTag.key);
+    }
 
-            // Good
-            if (error.response && error.response.status === 404) {
-                return client
-                    .getTemplate(fromTemplateId)
-                    .then((template) =>
-                        client.putTemplate(newTemplateId, template.templateBody, template.contentType)
-                    );
-            }
+    return Promise.all([
+        client.listTemplates(),
+        tagliatelle.getTags(accessToken, {key: tagKeys}).then((x) => x.results),
+    ]).then((data) => {
+        const list = data[0];
+        const tags = data[1];
 
-            return Promise.reject(error);
+        const namedList = list.map((template) => {
+            const templateTags = {};
+            tags.filter((t) => t.resourceUri === getTemplateUri(template.templateId)).forEach(((tt) => {
+                templateTags[tt.key] = tt.value || null;
+            }));
+
+            return Object.assign({}, template, {
+                templateName: templateTags[tagKeyTemplateName],
+                tags: templateTags,
+            });
         });
+
+        if (customTag) {
+            const filteredList = namedList.filter((t) => {
+                return Object.keys(t.tags).includes(customTag.key);
+            });
+            return Promise.resolve(filteredList);
+        }
+
+        return Promise.resolve(namedList);
+    });
 }
 
-function createTemplate(accessToken, newTemplateId, contentType) {
+function cloneTemplate(accessToken, fromTemplateId, templateName, customTag) {
     const client = new StereotypeClient('Bearer ' + accessToken);
+    const tagliatelle = new TagliatelleClient();
+    const templateUri = getTemplateUri(fromTemplateId);
+
+    return Promise.all([
+        client.getTemplate(fromTemplateId),
+        tagliatelle.getTags(accessToken, {resourceUri: templateUri}).then((t) => t.results),
+    ]).then((data) => {
+        const template = data[0];
+        const tags = data[1];
+
+        const templateTypeTag = tags.find((t) => t.key === tagKeyTemplateType);
+        const templateType = templateTypeTag ? templateTypeTag.value : undefined;
+
+        return createTemplate(accessToken, template.contentType, templateName, customTag, template.templateBody, templateType);
+    }).catch((error) => {
+        if (error.response && error.response.status === 404) {
+            return Promise.reject(`Template ${fromTemplateId} does not exists!`);
+        }
+    });
+}
+
+function createTemplate(accessToken, contentType, templateName, customTag = null, templateBody='', templateType = 'raw' ) {
+    const client = new StereotypeClient('Bearer ' + accessToken);
+    const tagliatelle = new TagliatelleClient();
 
     return client
-        .getTemplate(newTemplateId)
-        .then(() => {
-            return Promise.reject(`Template ${newTemplateId} already exists!`);
-        })
-        .catch((error) => {
-            // Already there
-            if (error.response && error.response.status === 403) {
-                return Promise.reject(`Template ${newTemplateId} already exists!`);
+        .createTemplate(templateBody, contentType, false)
+        .then((newTemplate) => {
+            const templateUri = getTemplateUri(newTemplate.templateId);
+            const tagPromises = [
+                tagliatelle.createTag(accessToken, templateUri, tagKeyTemplateType, templateType),
+                tagliatelle.createTag(accessToken, templateUri, tagKeyTemplateName, templateName),
+            ];
+
+            if (customTag) {
+                tagPromises.push(tagliatelle.createTag(accessToken, templateUri, customTag.key, customTag.value));
             }
 
-            // Good
-            if (error.response && error.response.status === 404) {
-                return client
-                    .putTemplate(newTemplateId, '', contentType);
-            }
-
-            return Promise.reject(error);
+            return Promise.all(tagPromises).then(()=> {
+                const template = newTemplate;
+                template.templateName = templateName;
+                template.tags = {};
+                template.tags[tagKeyTemplateName] = templateName;
+                template.tags[tagKeyTemplateType] = templateType;
+                if (customTag) {
+                    template.tags[customTag.key] = customTag.value;
+                }
+                return template;
+            });
         });
 }
 
