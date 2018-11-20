@@ -315,10 +315,14 @@ class TemplateItem extends React.Component {
                             {spacing}
                             <IconButton
                                 tooltip={this.tt('button_preview_tooltip')}
-                                disabled={this.state.fetching}
-                                disabledTooltip={this.tt('you_see_this_template_because_it_is_in_user_but_you_dont_have_access_to_it')}
+                                disabled={this.state.fetching || !this.props.onPreviewClicked}
+                                onClick={() => {
+                                    if (this.props.onPreviewClicked) {
+                                        this.props.onPreviewClicked(this.props.templateId);
+                                    }
+                                }}
                                 gaKey={'btn.view.template'}
-                                name={'view-2-l'}/></Fragment>
+                                name={'search-l'}/></Fragment>
                         : null}
                 </div>
             </span>;
@@ -355,6 +359,7 @@ TemplateItem.propTypes = {
 
     onTemplateChanged: PropTypes.func,
     onTemplateCreated: PropTypes.func,
+    onPreviewClicked: PropTypes.func,
 };
 
 TemplateItem.defaultProps = {

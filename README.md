@@ -51,6 +51,9 @@ Depending on your use case, you can add the following:
                 
                 /* JSON that should be forwarded to Template Desinger when editing a template */
                 payload={payloadData}
+                
+                /* A handler to call when preview button is clicked */
+                onPreviewClicked={(templateId) => { doSomething() }}
 
                 /* The following properties define whether the respective buttons should be shown */
                 withCreateBlankButton={true}
@@ -58,6 +61,7 @@ Depending on your use case, you can add the following:
                 withAccessButton={true}
                 withEditButton={true}
                 withCloneButton={true}
+                withPreviewButton={false}
             />
 
 

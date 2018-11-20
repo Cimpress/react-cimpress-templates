@@ -41,7 +41,7 @@ storiesOf('TemplateItem', module)
 
                             withCreateBlankButton={boolean('withComments', true)}
                             withComments={boolean('withComments', true)}
-                            withPreviewButton={boolean('withPreviewButton', false)}
+                            withPreviewButton={boolean('withPreviewButton', true)}
                             withAccessButton={boolean('withAccessButton', true)}
                             withEditButton={boolean('withEditButton', true)}
                             withCloneButton={boolean('withCloneButton', true)}
