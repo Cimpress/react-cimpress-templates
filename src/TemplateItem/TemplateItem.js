@@ -322,7 +322,7 @@ class TemplateItem extends React.Component {
                                     }
                                 }}
                                 gaKey={'btn.view.template'}
-                                name={'search-l'}/></Fragment>
+                                name={'view-2-l'}/></Fragment>
                         : null}
                 </div>
             </span>;
