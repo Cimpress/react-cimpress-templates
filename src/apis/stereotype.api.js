@@ -18,7 +18,7 @@ function listTemplates(accessToken, customTag) {
     }
 
     return Promise.all([
-        client.listTemplates(),
+        client.listTemplates(true, true),
         tagliatelle.getTags(accessToken, {key: tagKeys}).then((x) => x.results),
     ]).then((data) => {
         const list = data[0];
