@@ -29,7 +29,28 @@ storiesOf('TemplatePreview', module)
                             payload={{
                                 demo: 'asd',
                             }}
-                            renderAs={text('renderAs', 'xml')}
+                            materializationLanguage={text('materializationLanguage', 'json')}
+                            htmlPreview={boolean('htmlPreview', false)}
+                        />
+                    </div>
+                </div>;
+            }}
+        </State>
+    </Authenticated>)
+    .add('Direct materialization', () => <Authenticated>
+        <State store={store}>
+            {(state) => {
+                return <div className={'row'}>
+                    <div className={'col-md-6'}>
+                        <TemplatePreview
+                            language={'eng'}
+                            accessToken={auth.getAccessToken()}
+                            templateBody={'{{{JSONstringify .}}}'}
+                            templateContentType={'text/handlebars'}
+                            payload={{
+                                demo: 'asd',
+                            }}
+                            materializationLanguage={text('materializationLanguage', 'json')}
                             htmlPreview={boolean('htmlPreview', false)}
                         />
                     </div>

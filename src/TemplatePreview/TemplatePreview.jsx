@@ -3,7 +3,7 @@ import React, {Fragment} from 'react';
 import PropTypes from 'prop-types';
 import {translate} from 'react-i18next';
 import Loading from '../internal/Loading';
-import {materializeTemplate} from '../apis/stereotype.api';
+import {materializeTemplate, materializeTemplateBody} from '../apis/stereotype.api';
 import {Alert} from '@cimpress/react-components';
 import {Highlight} from 'react-fast-highlight';
 import {getI18nInstance} from '../i18n';
@@ -40,7 +40,23 @@ class TemplatePreview extends React.Component {
             isFetching: true,
             error: undefined,
         }, () => {
-            materializeTemplate(this.props.accessToken, this.props.templateId, this.props.payload, options)
+            let mPromise = Promise.resolve('misconfigured');
+            if (this.props.templateId) {
+                mPromise = materializeTemplate(this.props.accessToken, this.props.templateId, this.props.payload, options);
+            }
+
+            if (this.props.templateBody && this.props.templateContentType) {
+                mPromise = materializeTemplateBody(this.props.accessToken, this.props.templateBody, this.props.templateContentType, this.props.payload, options)
+                    .then((r) => r.result);
+            }
+
+            mPromise
+                .then((materialization) => {
+                    if (this.props.materializationPostProcessing) {
+                        return this.props.materializationPostProcessing(materialization);
+                    }
+                    return materialization;
+                })
                 .then((materialization) => {
                     this.setState({
                         isFetching: false,
@@ -58,7 +74,7 @@ class TemplatePreview extends React.Component {
     }
 
     renderPreview() {
-        if (this.props.renderAs === 'html') {
+        if (this.props.materializationLanguage === 'html') {
             if (this.props.htmlPreview) {
                 return <div dangerouslySetInnerHTML={{__html: this.state.materialization}} />;
             } else {
@@ -68,17 +84,15 @@ class TemplatePreview extends React.Component {
             }
         }
 
-        if (this.props.renderAs === 'text') {
+        if (this.props.materializationLanguage === 'text') {
             return <pre>
                 {this.state.materialization}
             </pre>;
         }
 
-        if (this.props.renderAs === 'xml') {
-            return <Highlight languages={['xml']} className="my-class">
-                {this.state.materialization || ''}
-            </Highlight>;
-        }
+        return <Highlight languages={[this.props.materializationLanguage]} className="my-class">
+            {this.state.materialization || ''}
+        </Highlight>;
     }
 
     renderError() {
@@ -130,7 +144,12 @@ TemplatePreview.propTypes = {
     accessToken: PropTypes.string,
     templateId: PropTypes.string,
     payload: PropTypes.object,
-    renderAs: PropTypes.string,
+    materializationLanguage: PropTypes.string,
+
+    // advanced
+    templateBody: PropTypes.string,
+    templateContentType: PropTypes.string,
+    materializationPostProcessing: PropTypes.func,
     htmlPreview: PropTypes.bool,
 
     t: PropTypes.any,

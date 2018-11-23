@@ -118,9 +118,28 @@ const materializeTemplate = (accessToken, templateId, payload, options) => {
     return client.materialize(templateId, payload);
 };
 
+const materializeTemplateBody = (accessToken, templateBody, contentType, payload, options) => {
+    const client = new StereotypeClient('Bearer ' + accessToken);
+
+    let blacklist = (options || {}).blacklist;
+    if (blacklist) {
+        blacklist = `${blacklist},${xStereotypeRelBlacklist}`;
+    }
+    client.setBlacklistHeader(blacklist);
+    client.setAcceptPreferenceHeader(xStereotypeAcceptPreference);
+
+    let template = {
+        content: templateBody,
+        contentType: contentType,
+    };
+
+    return client.materializeDirect(template, payload);
+};
+
 export {
     listTemplates,
     cloneTemplate,
     createTemplate,
     materializeTemplate,
+    materializeTemplateBody,
 };
