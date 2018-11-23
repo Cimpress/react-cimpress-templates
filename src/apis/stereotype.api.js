@@ -4,11 +4,15 @@ import TagliatelleClient from 'cimpress-tagliatelle';
 const tagKeyTemplateName = 'urn:stereotype:templateName';
 const tagKeyTemplateType = 'urn:stereotype:templateType';
 
+const xStereotypeRelBlacklist = 'https://fulfillment.at.cimpress.io/rels/jobsheet,https://fulfillment.at.cimpress.io/rels/document,https://fulfillment.at.cimpress.io/rels/notifications';
+const xStereotypeAcceptPreference = 'image/*;q=0.1,application/json;q=0.9';
+
+
 function getTemplateUri(templateId) {
     return `https://stereotype.trdlnk.cimpress.io/v1/templates/${templateId}`;
 }
 
-function listTemplates(accessToken, customTag) {
+const listTemplates = (accessToken, customTag) => {
     const client = new StereotypeClient('Bearer ' + accessToken);
     const tagliatelle = new TagliatelleClient();
 
@@ -45,9 +49,9 @@ function listTemplates(accessToken, customTag) {
 
         return Promise.resolve(namedList);
     });
-}
+};
 
-function cloneTemplate(accessToken, fromTemplateId, templateName, customTag) {
+const cloneTemplate = (accessToken, fromTemplateId, templateName, customTag) => {
     const client = new StereotypeClient('Bearer ' + accessToken);
     const tagliatelle = new TagliatelleClient();
     const templateUri = getTemplateUri(fromTemplateId);
@@ -68,9 +72,9 @@ function cloneTemplate(accessToken, fromTemplateId, templateName, customTag) {
             return Promise.reject(`Template ${fromTemplateId} does not exists!`);
         }
     });
-}
+};
 
-function createTemplate(accessToken, contentType, templateName, customTag = null, templateBody='', templateType = 'raw' ) {
+const createTemplate = (accessToken, contentType, templateName, customTag = null, templateBody='', templateType = 'raw' ) => {
     const client = new StereotypeClient('Bearer ' + accessToken);
     const tagliatelle = new TagliatelleClient();
 
@@ -99,10 +103,24 @@ function createTemplate(accessToken, contentType, templateName, customTag = null
                 return template;
             });
         });
-}
+};
+
+const materializeTemplate = (accessToken, templateId, payload, options) => {
+    const client = new StereotypeClient('Bearer ' + accessToken);
+
+    let blacklist = (options || {}).blacklist;
+    if (blacklist) {
+        blacklist = `${blacklist},${xStereotypeRelBlacklist}`;
+    }
+    client.setBlacklistHeader(blacklist);
+    client.setAcceptPreferenceHeader(xStereotypeAcceptPreference);
+
+    return client.materialize(templateId, payload);
+};
 
 export {
     listTemplates,
     cloneTemplate,
     createTemplate,
+    materializeTemplate,
 };

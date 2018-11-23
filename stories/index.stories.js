@@ -9,10 +9,34 @@ import TemplateSelect from '../src/TemplateSelect/TemplateSelect';
 import TemplateSelectButton from '../src/TemplateSelectButton/TemplateSelectButton';
 import auth from './auth';
 import TemplateItem from '../src/TemplateItem/TemplateItem';
+import {TemplatePreview} from '../src/index';
 
 const store = new Store({
-    lastTemplateId: 'FTPAdaptorOrderModel',
+    lastTemplateId: 'FileBasedAdaptorDefaultTemplate',
 });
+
+storiesOf('TemplatePreview', module)
+    .addDecorator(withKnobs)
+    .add('Basic use', () => <Authenticated>
+        <State store={store}>
+            {(state) => {
+                return <div className={'row'}>
+                    <div className={'col-md-6'}>
+                        <TemplatePreview
+                            language={'eng'}
+                            accessToken={auth.getAccessToken()}
+                            templateId={text('templateId', state.lastTemplateId)}
+                            payload={{
+                                demo: 'asd',
+                            }}
+                            renderAs={text('renderAs', 'xml')}
+                            htmlPreview={boolean('htmlPreview', false)}
+                        />
+                    </div>
+                </div>;
+            }}
+        </State>
+    </Authenticated>);
 
 storiesOf('TemplateItem', module)
     .addDecorator(withKnobs)
