@@ -12,7 +12,7 @@ import TemplateItem from '../src/TemplateItem/TemplateItem';
 import {TemplatePreview} from '../src/index';
 
 const store = new Store({
-    lastTemplateId: 'FileBasedAdaptorDefaultTemplate',
+    lastTemplateId: '70677984-0020-40c3-8817-b77d741dcd11',
 });
 
 storiesOf('TemplatePreview', module)
@@ -29,8 +29,9 @@ storiesOf('TemplatePreview', module)
                             payload={{
                                 demo: 'asd',
                             }}
-                            materializationLanguage={text('materializationLanguage', 'json')}
+                            materializationLanguage={text('materializationLanguage', 'xml')}
                             htmlPreview={boolean('htmlPreview', false)}
+                            renderFrame={boolean('renderFrame', false)}
                         />
                     </div>
                 </div>;

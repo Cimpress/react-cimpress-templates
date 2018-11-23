@@ -80,6 +80,7 @@ const createTemplate = (accessToken, contentType, templateName, customTag = null
 
     return client
         .createTemplate(templateBody, contentType, false)
+        .then((createdTemplate) => client.getTemplate(createdTemplate.templateId))
         .then((newTemplate) => {
             const templateUri = getTemplateUri(newTemplate.templateId);
             const tagPromises = [

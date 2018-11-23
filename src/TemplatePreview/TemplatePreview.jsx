@@ -7,6 +7,7 @@ import {materializeTemplate, materializeTemplateBody} from '../apis/stereotype.a
 import {Alert} from '@cimpress/react-components';
 import {Highlight} from 'react-fast-highlight';
 import {getI18nInstance} from '../i18n';
+import Frame from 'react-frame-component';
 
 class TemplatePreview extends React.Component {
     constructor(props) {
@@ -135,7 +136,11 @@ class TemplatePreview extends React.Component {
         }
 
         let error = this.renderError();
-        let preview = this.renderPreview();
+        let preview = this.props.renderFrame
+            ? <Frame {...this.props.frameProps}>
+                {this.renderPreview()}
+            </Frame>
+            : this.renderPreview();
 
         return <Fragment>
             {error || preview}
@@ -156,6 +161,11 @@ TemplatePreview.propTypes = {
     materializationPostProcessing: PropTypes.func,
     htmlPreview: PropTypes.bool,
 
+    // advanced++
+    renderFrame: PropTypes.bool,
+    frameProps: PropTypes.object,
+
+    // translation
     t: PropTypes.any,
 };
 
