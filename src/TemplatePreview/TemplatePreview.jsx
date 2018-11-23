@@ -23,6 +23,10 @@ class TemplatePreview extends React.Component {
     componentDidUpdate(prevProps) {
         let shouldMaterialize = (this.props.templateId !== prevProps.templateId)
             || (this.props.accessToken !== prevProps.accessToken)
+            || (this.props.templateContentType !== prevProps.templateContentType)
+            || (this.props.templateBody !== prevProps.templateBody)
+            || (this.props.htmlPreview !== prevProps.htmlPreview)
+            || (this.props.materializationLanguage !== prevProps.materializationLanguage)
             || (JSON.stringify(this.props.payload) !== JSON.stringify(prevProps.payload));
 
         if (shouldMaterialize) {
