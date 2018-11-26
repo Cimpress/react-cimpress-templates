@@ -15,6 +15,20 @@ const store = new Store({
     lastTemplateId: '70677984-0020-40c3-8817-b77d741dcd11',
 });
 
+const payloadSimple = {
+    demo: 'asd',
+};
+
+const payload403 = {
+    'to': 'istanishev@cimpress.com',
+    'emailNotificationTo': 'istanishev@cimpress.com',
+    'links': {
+        'self': {
+            'href': 'https://fulfillment.at.cimpress.io/v1/notifications/0a1c21de-d195-4555-a95a-41939d32562b',
+        },
+    },
+};
+
 storiesOf('TemplatePreview', module)
     .addDecorator(withKnobs)
     .add('Basic use', () => <Authenticated>
@@ -26,9 +40,7 @@ storiesOf('TemplatePreview', module)
                             language={'eng'}
                             accessToken={auth.getAccessToken()}
                             templateId={text('templateId', state.lastTemplateId)}
-                            payload={{
-                                demo: 'asd',
-                            }}
+                            payload={payload403}
                             materializationLanguage={text('materializationLanguage', 'xml')}
                             htmlPreview={boolean('htmlPreview', false)}
                             renderFrame={boolean('renderFrame', false)}

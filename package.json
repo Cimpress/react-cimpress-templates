@@ -1,6 +1,6 @@
 {
   "name": "react-cimpress-templates",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Template selection",
   "main": "./lib/index.js",
   "scripts": {
@@ -59,8 +59,9 @@
     "cimpress-tagliatelle": "^0.1.1",
     "classnames": "^2.2.6",
     "i18next": "^11.5.0",
+    "prop-types": "^15.6.2",
     "react-cimpress-comment": "^0.8.3",
-    "react-cimpress-users": "^1.0.0",
+    "react-cimpress-users": "^1.0.1",
     "react-fast-highlight": "^2.2.2",
     "react-frame-component": "^4.0.2",
     "react-i18next": "^7.10.1",
