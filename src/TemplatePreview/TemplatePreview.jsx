@@ -128,14 +128,13 @@ class TemplatePreview extends React.Component {
                             return <PermissionDeniedWhileExpandingPayload
                                 permissionDeniedErrors={hasPermissionDeniedErrors}
                                 onContinueAnyway={(relArray) => {
-                                    console.log(relArray);
                                     this.setState({blacklistRels: relArray}, () => this.materialize() );
                                 }}
                                 customErrorHandlingButton={this.props.customErrorHandlingButton}
                             />;
                         }
                     } catch (e) {
-                        // eslinst-ignore-next-line
+                        // eslint-disable-next-line no-console
                         console.error(e);
                     }
                 }
