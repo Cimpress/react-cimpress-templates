@@ -63,6 +63,14 @@ Depending on your use case, you can add the following:
                 withCloneButton={true}
                 withPreviewButton={false}
             />
+            
+* Using template preview
+        <TemplatePreview
+                accessToken={auth.getAccessToken()}
+                templateId={store.get('lastTemplateId')}
+                payload={jsonPayload}
+                materializationLanguage={'xml'}       
+            />
 
 
 * Using standard template selection

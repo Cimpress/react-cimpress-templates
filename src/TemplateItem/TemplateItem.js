@@ -6,7 +6,6 @@ import CommentsDrawerLink from 'react-cimpress-comment';
 import IconButton from '../internal/IconButton';
 import DefaultButton from '../internal/DefaultButton';
 import {UsersTable} from 'react-cimpress-users';
-import {getTemplateAdminGroup} from '../apis/coam.api';
 import {getI18nInstance} from '../i18n';
 import TemplateSelectModal from '../TemplateSelectModal/TemplateSelectModal';
 import NewTemplateModal from '../internal/NewTemplateModal';
@@ -22,7 +21,6 @@ class TemplateItem extends React.Component {
             openDialogChangeTemplate: false,
             openDialogCreateTemplate: false,
             showUsers: false,
-            groupId: undefined,
         };
     }
 
@@ -37,11 +35,6 @@ class TemplateItem extends React.Component {
         });
     }
 
-    getGroup() {
-        return getTemplateAdminGroup(this.props.accessToken, this.props.templateId)
-            .then((groupId) => this.setState({groupId: groupId}));
-    }
-
     fetchTemplates() {
         return listTemplates(this.props.accessToken, this.props.filterTemplatesByTag ? {key: this.props.filterTemplatesByTag} : undefined)
             .then((templates) => {
@@ -51,49 +44,39 @@ class TemplateItem extends React.Component {
             });
     }
 
-    fetchAll(fetchGroup, fetchTemplates) {
+    fetchAll() {
         this.setState({
             fetching: true,
             fetchingError: undefined,
         }, () => {
-            Promise.all([
-                fetchGroup ? this.getGroup() : Promise.resolve(),
-                fetchTemplates ? this.fetchTemplates() : Promise.resolve(),
-            ]).then((x) => {
-                this.setState({
-                    fetching: false,
+            this.fetchTemplates()
+                .then((x) => {
+                    this.setState({
+                        fetching: false,
+                    });
+                }).catch((error) => {
+                    this.setState({
+                        fetching: false,
+                        fetchingError: error,
+                    });
                 });
-            }).catch((error) => {
-                this.setState({
-                    fetching: false,
-                    fetchingError: error,
-                });
-            });
         });
     }
 
     componentDidMount() {
-        let fetchGroup = this.props.templateId && this.props.templateId;
-        let fetchTemplates = true;
-        if ((fetchGroup || fetchTemplates) && !this.state.fetching) {
-            this.fetchAll(fetchGroup, fetchTemplates);
+        if (!this.state.fetching) {
+            this.fetchAll();
         }
     }
 
     componentDidUpdate(prevProps) {
-        let reFetchGroup = false;
         let reFetchTemplates = false;
-        if (this.props.templateId && this.props.templateId) {
-            if (!prevProps.templateId || (prevProps.templateId !== this.props.templateId)) {
-                reFetchGroup = true;
-            }
-        }
         if (prevProps.accessToken !== this.props.accessToken && this.props.accessToken) {
             reFetchTemplates = true;
         }
 
-        if ((reFetchGroup || reFetchTemplates) && !this.state.fetching) {
-            this.fetchAll(reFetchGroup, reFetchTemplates);
+        if (reFetchTemplates && !this.state.fetching) {
+            this.fetchAll();
         }
     }
 
@@ -130,7 +113,8 @@ class TemplateItem extends React.Component {
         });
 
         if (this.props.autoGrantReadToPrincipalWhenCreating) {
-            grantReadToPrincipal(this.props.accessToken, newTemplate.templateId, this.props.autoGrantReadToPrincipalWhenCreating);
+            const groupUrl = ((newTemplate.links || {}).coamAdminGroup || {}).href;
+            grantReadToPrincipal(this.props.accessToken, groupUrl, this.props.autoGrantReadToPrincipalWhenCreating);
         }
 
         if (this.props.autoRedirectAfterCreation) {
@@ -168,7 +152,9 @@ class TemplateItem extends React.Component {
     }
 
     renderUsersDrawer(templateName) {
-        if (!this.state.groupId) {
+        const template = (this.state.templates || []).find((t) => t.templateId === this.props.templateId);
+        const groupUrl = (((template || {}).links || {}).coamAdminGroup || {}).href;
+        if (!groupUrl) {
             return null;
         }
 
@@ -176,7 +162,7 @@ class TemplateItem extends React.Component {
             <UsersTable
                 language={this.props.i18n.language}
                 accessToken={this.props.accessToken}
-                groupId={this.state.groupId}
+                groupUrl={groupUrl}
                 mutuallyExclusiveRoles
                 showAdminsOnlyFilter={false}
                 allowedRoles={[{
@@ -218,6 +204,7 @@ class TemplateItem extends React.Component {
             ? (template.templateName || template.templateId)
             : this.props.templateId;
 
+        const groupUrl = (((template || {}).links || {}).coamAdminGroup || {}).href;
         const spacing = <Fragment>&nbsp;&nbsp;&nbsp;</Fragment>;
         const title = this.state.fetchingError
             ? <div className={'clearfix'}>
@@ -306,7 +293,7 @@ class TemplateItem extends React.Component {
                             <IconButton
                                 gaKey={'open_manage_access_drawer'}
                                 name={'person-lock-1-l'}
-                                disabled={!this.state.groupId || this.state.fetching}
+                                disabled={!groupUrl || this.state.fetching}
                                 onClick={() => this.setState({showUsers: true})}
                                 tooltip={this.tt('button_manage_access_tooltip')}/></Fragment>
                         : null}

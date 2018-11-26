@@ -9,10 +9,56 @@ import TemplateSelect from '../src/TemplateSelect/TemplateSelect';
 import TemplateSelectButton from '../src/TemplateSelectButton/TemplateSelectButton';
 import auth from './auth';
 import TemplateItem from '../src/TemplateItem/TemplateItem';
+import {TemplatePreview} from '../src/index';
 
 const store = new Store({
-    lastTemplateId: 'FTPAdaptorOrderModel',
+    lastTemplateId: '70677984-0020-40c3-8817-b77d741dcd11',
 });
+
+storiesOf('TemplatePreview', module)
+    .addDecorator(withKnobs)
+    .add('Basic use', () => <Authenticated>
+        <State store={store}>
+            {(state) => {
+                return <div className={'row'}>
+                    <div className={'col-md-6'}>
+                        <TemplatePreview
+                            language={'eng'}
+                            accessToken={auth.getAccessToken()}
+                            templateId={text('templateId', state.lastTemplateId)}
+                            payload={{
+                                demo: 'asd',
+                            }}
+                            materializationLanguage={text('materializationLanguage', 'xml')}
+                            htmlPreview={boolean('htmlPreview', false)}
+                            renderFrame={boolean('renderFrame', false)}
+                        />
+                    </div>
+                </div>;
+            }}
+        </State>
+    </Authenticated>)
+    .add('Direct materialization', () => <Authenticated>
+        <State store={store}>
+            {(state) => {
+                return <div className={'row'}>
+                    <div className={'col-md-6'}>
+                        <TemplatePreview
+                            language={'eng'}
+                            accessToken={auth.getAccessToken()}
+                            templateBody={'{{{JSONstringify .}}}'}
+                            templateContentType={'text/handlebars'}
+                            payload={{
+                                demo: 'asd',
+                            }}
+                            materializationLanguage={text('materializationLanguage', 'json')}
+                            htmlPreview={boolean('htmlPreview', false)}
+                        />
+                    </div>
+                </div>;
+            }}
+        </State>
+    </Authenticated>);
 
 storiesOf('TemplateItem', module)
     .addDecorator(withKnobs)

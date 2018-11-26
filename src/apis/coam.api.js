@@ -23,13 +23,13 @@ const exec = (data) => {
         });
 };
 
-const getGroups = (accessToken, resourceId) => {
+const getGroupInfo = (accessToken, groupUrl) => {
     let data = defaultRequestData(accessToken, {
-        url: `/v1/groups?resource_type=stereotype-templates&resource_identifier=${resourceId}&${Math.random() * 1000000}`,
+        url: `${groupUrl}?canonicalize=true&${Math.random() * 1000000}`,
         method: 'GET',
     });
 
-    return exec(data).then((r) => r.groups);
+    return exec(data);
 };
 
 const patchUserRoles = (accessToken, groupId, principal, rolesChanges) => {
@@ -57,37 +57,18 @@ const addGroupMember = (accessToken, groupId, principal, isAdmin) => {
     return exec(data);
 };
 
-const getTemplateAdminGroup = (accessToken, templateId) => {
-    return getGroups(accessToken, templateId)
-        .then((groups) => {
-            if (groups && groups.length > 0) {
-                let bestGuess = groups.filter((g) => g.name.startsWith('Stereotype Template: '));
-                let id = (bestGuess && bestGuess.length > 0) ? bestGuess[0].id : groups[0].id;
-                return Promise.resolve(parseInt(id, 10));
-            } else {
-                return Promise.resolve(undefined);
-            }
-        })
-        .catch((e) => {
-            return Promise.resolve(undefined);
-        });
-};
-
-const grantReadToPrincipal = (accessToken, templateId, principal) => {
-    return getTemplateAdminGroup(accessToken, templateId)
-        .then((groupId) => {
-            if (!groupId) {
+const grantReadToPrincipal = (accessToken, groupUrl, principal) => {
+    return getGroupInfo(accessToken, groupUrl)
+        .then((groupInfo) => {
+            if (!groupInfo) {
                 return Promise.reject('Failed to retrieve template COAM group.');
             }
-            return addGroupMember(accessToken, groupId, principal, false)
-                .then(() => patchUserRoles(accessToken, groupId, principal, {'add': ['Template Reader']})
+            return addGroupMember(accessToken, groupInfo.id, principal, false)
+                .then(() => patchUserRoles(accessToken, groupInfo.id, principal, {'add': ['Template Reader']})
                 );
         });
 };
 
-
 export {
-    getGroups,
     grantReadToPrincipal,
-    getTemplateAdminGroup,
 };
