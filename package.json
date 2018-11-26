@@ -59,6 +59,7 @@
     "cimpress-tagliatelle": "^0.1.1",
     "classnames": "^2.2.6",
     "i18next": "^11.5.0",
+    "prop-types": "^15.6.2",
     "react-cimpress-comment": "^0.8.3",
     "react-cimpress-users": "^1.0.0",
     "react-fast-highlight": "^2.2.2",

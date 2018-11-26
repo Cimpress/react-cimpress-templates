@@ -8,12 +8,14 @@ import {Alert} from '@cimpress/react-components';
 import {Highlight} from 'react-fast-highlight';
 import {getI18nInstance} from '../i18n';
 import Frame from 'react-frame-component';
+import PermissionDeniedToTemplate from './errors/PermissionDeniedToTemplate';
+import PermissionDeniedWhileExpandingPayload from './errors/PermissionDeniedWhileExpandingPayload';
 
 class TemplatePreview extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            useSampleData: false,
+            blacklistRels: [],
         };
     }
 
@@ -30,6 +32,10 @@ class TemplatePreview extends React.Component {
             || (this.props.materializationLanguage !== prevProps.materializationLanguage)
             || (JSON.stringify(this.props.payload) !== JSON.stringify(prevProps.payload));
 
+        if ((JSON.stringify(this.props.payload) !== JSON.stringify(prevProps.payload))) {
+            this.setState({blacklistRels: []});
+        }
+
         if (shouldMaterialize) {
             this.materialize();
         }
@@ -38,7 +44,7 @@ class TemplatePreview extends React.Component {
     materialize() {
         let options = {
             // add here black/white lists
-            blacklist: undefined,
+            blacklist: (this.state.blacklistRels || []).join(','),
         };
 
         this.setState({
@@ -106,11 +112,32 @@ class TemplatePreview extends React.Component {
         }
 
         let e = this.state.error;
-
         if (e.response) {
             if (e.response.status) {
                 if (e.response.status === 404) {
-                    return <Alert type={'danger'} message={this.tt('template-not-found')}/>;
+                    return <Alert type={'danger'} message={this.tt('errors:template-not-found')}/>;
+                }
+                if (e.response.status === 403) {
+                    return <PermissionDeniedToTemplate/>;
+                }
+                if (e.response.status === 400) {
+                    const err = e.response.body.errors;
+                    try {
+                        const hasPermissionDeniedErrors = err.filter((a) => a.expandedResponseCode === 403);
+                        if (hasPermissionDeniedErrors.length > 0) {
+                            return <PermissionDeniedWhileExpandingPayload
+                                permissionDeniedErrors={hasPermissionDeniedErrors}
+                                onContinueAnyway={(relArray) => {
+                                    console.log(relArray);
+                                    this.setState({blacklistRels: relArray}, () => this.materialize() );
+                                }}
+                                customErrorHandlingButton={this.props.customErrorHandlingButton}
+                            />;
+                        }
+                    } catch (e) {
+                        // eslinst-ignore-next-line
+                        console.error(e);
+                    }
                 }
             }
 
@@ -164,6 +191,7 @@ TemplatePreview.propTypes = {
     // advanced++
     renderFrame: PropTypes.bool,
     frameProps: PropTypes.object,
+    customErrorHandlingButton: PropTypes.any,
 
     // translation
     t: PropTypes.any,
@@ -173,4 +201,4 @@ TemplatePreview.defaultProps = {
     language: 'eng',
 };
 
-export default translate('translations', {i18n: getI18nInstance()})(TemplatePreview);
+export default translate(['translations', 'errors'], {i18n: getI18nInstance()})(TemplatePreview);
