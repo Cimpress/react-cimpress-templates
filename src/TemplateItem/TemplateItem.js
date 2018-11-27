@@ -205,6 +205,8 @@ class TemplateItem extends React.Component {
             : this.props.templateId;
 
         const groupUrl = (((template || {}).links || {}).coamAdminGroup || {}).href;
+        const templateUrl = (((template || {}).links || {}).self || {}).href;
+
         const spacing = <Fragment>&nbsp;&nbsp;&nbsp;</Fragment>;
         const title = this.state.fetchingError
             ? <div className={'clearfix'}>
@@ -237,10 +239,10 @@ class TemplateItem extends React.Component {
                         {this.state.fetching
                             ? this.tt('loading')
                             : templateName}
-                        {this.props.withComments && !this.state.fetching
+                        {this.props.withComments && !this.state.fetching && templateUrl
                             ? <CommentsDrawerLink
                                 locale={this.props.i18n.language}
-                                resourceUri={`https://stereotype.trdlnk.cimpress.io/v1/templates/${this.props.templateId}`}
+                                resourceUri={templateUrl}
                                 newestFirst
                                 editComments
                                 accessToken={this.props.accessToken}/>

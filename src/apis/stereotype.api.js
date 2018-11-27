@@ -1,16 +1,14 @@
 import StereotypeClient from 'stereotype-client';
 import TagliatelleClient from 'cimpress-tagliatelle';
 
+const Base64 = require('js-base64').Base64;
+
 const tagKeyTemplateName = 'urn:stereotype:templateName';
 const tagKeyTemplateType = 'urn:stereotype:templateType';
 
 const xStereotypeRelBlacklist = 'https://fulfillment.at.cimpress.io/rels/jobsheet,https://fulfillment.at.cimpress.io/rels/document,https://fulfillment.at.cimpress.io/rels/notifications';
 const xStereotypeAcceptPreference = 'image/*;q=0.1,application/json;q=0.9';
 
-
-function getTemplateUri(templateId) {
-    return `https://stereotype.trdlnk.cimpress.io/v1/templates/${templateId}`;
-}
 
 const listTemplates = (accessToken, customTag) => {
     const client = new StereotypeClient('Bearer ' + accessToken);
@@ -30,9 +28,11 @@ const listTemplates = (accessToken, customTag) => {
 
         const namedList = list.map((template) => {
             const templateTags = {};
-            tags.filter((t) => t.resourceUri === getTemplateUri(template.templateId)).forEach(((tt) => {
-                templateTags[tt.key] = tt.value || null;
-            }));
+            tags
+                .filter((t) => t.resourceUri === template.links.self.href)
+                .forEach(((tt) => {
+                    templateTags[tt.key] = tt.value || null;
+                }));
 
             return Object.assign({}, template, {
                 templateName: templateTags[tagKeyTemplateName],
@@ -54,24 +54,30 @@ const listTemplates = (accessToken, customTag) => {
 const cloneTemplate = (accessToken, fromTemplateId, templateName, customTag) => {
     const client = new StereotypeClient('Bearer ' + accessToken);
     const tagliatelle = new TagliatelleClient();
-    const templateUri = getTemplateUri(fromTemplateId);
 
-    return Promise.all([
-        client.getTemplate(fromTemplateId),
-        tagliatelle.getTags(accessToken, {resourceUri: templateUri}).then((t) => t.results),
-    ]).then((data) => {
-        const template = data[0];
-        const tags = data[1];
+    let templateData;
 
-        const templateTypeTag = tags.find((t) => t.key === tagKeyTemplateType);
-        const templateType = templateTypeTag ? templateTypeTag.value : undefined;
+    client.getTemplate(fromTemplateId)
+        .then((template) => {
+            templateData = template;
+            return tagliatelle.getTags(accessToken, {resourceUri: template.links.self.href}).then((t) => t.results);
+        })
+        .then((tags) => {
+            const templateTypeTag = tags.find((t) => t.key === tagKeyTemplateType);
+            const templateType = templateTypeTag ? templateTypeTag.value : undefined;
 
-        return createTemplate(accessToken, template.contentType, templateName, customTag, template.templateBody, templateType);
-    }).catch((error) => {
-        if (error.response && error.response.status === 404) {
-            return Promise.reject(`Template ${fromTemplateId} does not exists!`);
-        }
-    });
+            return createTemplate(accessToken,
+                templateData.contentType,
+                templateName,
+                customTag,
+                Base64.decode(templateData.templateBody),
+                templateType);
+
+        }).catch((error) => {
+            if (error.response && error.response.status === 404) {
+                return Promise.reject(`Template ${fromTemplateId} does not exists!`);
+            }
+        });
 };
 
 const createTemplate = (accessToken, contentType, templateName, customTag = null, templateBody='', templateType = 'raw' ) => {
@@ -80,9 +86,8 @@ const createTemplate = (accessToken, contentType, templateName, customTag = null
 
     return client
         .createTemplate(templateBody, contentType, false)
-        .then((createdTemplate) => client.getTemplate(createdTemplate.templateId))
         .then((newTemplate) => {
-            const templateUri = getTemplateUri(newTemplate.templateId);
+            const templateUri = newTemplate.links.self.href;
             const tagPromises = [
                 tagliatelle.createTag(accessToken, templateUri, tagKeyTemplateType, templateType),
                 tagliatelle.createTag(accessToken, templateUri, tagKeyTemplateName, templateName),
