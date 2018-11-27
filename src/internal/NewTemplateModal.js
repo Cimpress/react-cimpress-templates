@@ -48,7 +48,7 @@ class NewTemplateModal extends React.Component {
 
         const createPromise = (this.props.creationType === 'clone')
             ? cloneTemplate(this.props.accessToken, this.props.oldTemplateId, templateName,
-                this.props.autoTagTemplateWhenCreatingWith ? {key: this.props.autoTagTemplateWhenCreatingWith} : undefined )
+                this.props.autoTagTemplateWhenCreatingWith ? {key: this.props.autoTagTemplateWhenCreatingWith} : undefined)
             : createTemplate(this.props.accessToken, this.props.blankTemplateContentType, templateName,
                 this.props.autoTagTemplateWhenCreatingWith ? {key: this.props.autoTagTemplateWhenCreatingWith} : undefined);
 
