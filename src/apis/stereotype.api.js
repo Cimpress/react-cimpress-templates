@@ -57,10 +57,12 @@ const cloneTemplate = (accessToken, fromTemplateId, templateName, customTag) => 
 
     let templateData;
 
-    client.getTemplate(fromTemplateId)
+    return client.getTemplate(fromTemplateId)
         .then((template) => {
             templateData = template;
-            return tagliatelle.getTags(accessToken, {resourceUri: template.links.self.href}).then((t) => t.results);
+            return tagliatelle
+                .getTags(accessToken, {resourceUri: template.links.self.href})
+                .then((t) => Promise.resolve(t.results));
         })
         .then((tags) => {
             const templateTypeTag = tags.find((t) => t.key === tagKeyTemplateType);
@@ -72,7 +74,8 @@ const cloneTemplate = (accessToken, fromTemplateId, templateName, customTag) => 
                 customTag,
                 Base64.decode(templateData.templateBody),
                 templateType);
-        }).catch((error) => {
+        })
+        .catch((error) => {
             if (error.response && error.response.status === 404) {
                 return Promise.reject(`Template ${fromTemplateId} does not exists!`);
             }
@@ -96,17 +99,18 @@ const createTemplate = (accessToken, contentType, templateName, customTag = null
                 tagPromises.push(tagliatelle.createTag(accessToken, templateUri, customTag.key, customTag.value));
             }
 
-            return Promise.all(tagPromises).then(()=> {
-                const template = newTemplate;
-                template.templateName = templateName;
-                template.tags = {};
-                template.tags[tagKeyTemplateName] = templateName;
-                template.tags[tagKeyTemplateType] = templateType;
-                if (customTag) {
-                    template.tags[customTag.key] = customTag.value;
-                }
-                return template;
-            });
+            return Promise.all(tagPromises)
+                .then(()=> {
+                    const template = newTemplate;
+                    template.templateName = templateName;
+                    template.tags = {};
+                    template.tags[tagKeyTemplateName] = templateName;
+                    template.tags[tagKeyTemplateType] = templateType;
+                    if (customTag) {
+                        template.tags[customTag.key] = customTag.value;
+                    }
+                    return Promise.resolve(template);
+                });
         });
 };
 
