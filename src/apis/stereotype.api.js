@@ -72,7 +72,6 @@ const cloneTemplate = (accessToken, fromTemplateId, templateName, customTag) => 
                 customTag,
                 Base64.decode(templateData.templateBody),
                 templateType);
-
         }).catch((error) => {
             if (error.response && error.response.status === 404) {
                 return Promise.reject(`Template ${fromTemplateId} does not exists!`);
