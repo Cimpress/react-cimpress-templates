@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [0.3.6] - 2018-12-06
 ### Changed
-- Stop using react-i18next package
+- Do not use reactI18nextModule from react-i18next 
 
 ## [0.3.5] - 2018-12-05
 ### Changed
