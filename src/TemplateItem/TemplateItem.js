@@ -114,7 +114,7 @@ class TemplateItem extends React.Component {
 
         if (this.props.autoGrantReadToPrincipalWhenCreating) {
             const groupUrl = ((newTemplate.links || {}).coamAdminGroup || {}).href;
-            grantRoleToPrincipal(this.props.accessToken, groupUrl, this.props.autoGrantReadToPrincipalWhenCreating, 'Template Editor');
+            grantRoleToPrincipal(this.props.accessToken, groupUrl, this.props.autoGrantReadToPrincipalWhenCreating, 'Template Reader');
         }
 
         if (this.props.autoRedirectAfterCreation) {
