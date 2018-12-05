@@ -4,9 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [0.3.4] - 2018-12-05
+## [0.3.6] - 2018-12-06
 ### Changed
-- Start using a dedicated coam client to reduce code complexity.
+- Do not use reactI18nextModule from react-i18next 
+
+## [0.3.5] - 2018-12-05
+### Changed
+- Start using a dedicated COAM client to reduce code complexity.
 
 ## [0.3.4] - 2018-12-03
 ### Fixed

@@ -37,7 +37,7 @@ storiesOf('TemplatePreview', module)
                 return <div className={'row'}>
                     <div className={'col-md-6'}>
                         <TemplatePreview
-                            language={'eng'}
+                            language={text('Language', 'eng')}
                             accessToken={auth.getAccessToken()}
                             templateId={text('templateId', state.lastTemplateId)}
                             payload={payload403}
@@ -56,7 +56,7 @@ storiesOf('TemplatePreview', module)
                 return <div className={'row'}>
                     <div className={'col-md-6'}>
                         <TemplatePreview
-                            language={'eng'}
+                            language={text('Language', 'eng')}
                             accessToken={auth.getAccessToken()}
                             templateBody={'{{{JSONstringify .}}}'}
                             templateContentType={'text/handlebars'}
@@ -80,7 +80,7 @@ storiesOf('TemplateItem', module)
                 return <div className={'row'}>
                     <div className={'col-md-6'}>
                         <TemplateItem
-                            language={'eng'}
+                            language={text('Language', 'eng')}
                             accessToken={auth.getAccessToken()}
                             templateId={state.lastTemplateId}
 
@@ -115,6 +115,7 @@ storiesOf('TemplateSelect', module)
     .add('With static list', () =>
         <State store={store}>
             <TemplateSelect
+                language={text('Language', 'eng')}
                 templates={[{
                     templateId: 't1',
                 }, {
@@ -129,6 +130,7 @@ storiesOf('TemplateSelect', module)
     .add('List from service', () => <Authenticated>
         <State store={store}>
             <TemplateSelect
+                language={text('Language', 'eng')}
                 accessToken={auth.getAccessToken()}
                 selectedTemplateId={store.get('lastTemplateId')}
                 onChange={(templateId) => store.set({lastTemplateId: templateId})}/>
@@ -138,6 +140,7 @@ storiesOf('TemplateSelect', module)
     .add('With add new visible', () => <Authenticated>
         <State store={store}>
             <TemplateSelect
+                language={text('Language', 'eng')}
                 accessToken={auth.getAccessToken()}
                 showAddNew={false}
                 selectedTemplateId={store.get('lastTemplateId')}
@@ -150,6 +153,7 @@ storiesOf('TemplateSelectButton', module)
     .add('Basic use', () => <Authenticated>
         <State store={store}>
             <TemplateSelectButton
+                language={text('Language', 'eng')}
                 accessToken={auth.getAccessToken()}
                 onConfirm={(templateId) => store.set({lastTemplateId: templateId})}/>
         </State>
