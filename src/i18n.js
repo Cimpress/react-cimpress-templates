@@ -1,5 +1,4 @@
 import i18n from 'i18next';
-import {reactI18nextModule} from 'react-i18next';
 
 let languages = {};
 try {
@@ -18,7 +17,6 @@ function getI18nInstance() {
         i18nInstance = i18n.createInstance();
 
         i18nInstance
-            .use(reactI18nextModule)
             .init({
 
                 fallbackLng: 'eng',
