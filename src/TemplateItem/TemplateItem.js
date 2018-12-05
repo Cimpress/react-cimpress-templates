@@ -12,7 +12,7 @@ import NewTemplateModal from '../internal/NewTemplateModal';
 
 import './TemplateItem.css';
 import {listTemplates} from '../apis/stereotype.api';
-import {grantReadToPrincipal} from '../apis/coam.api';
+import {grantRoleToPrincipal} from 'coam-client';
 
 class TemplateItem extends React.Component {
     constructor(props) {
@@ -114,7 +114,7 @@ class TemplateItem extends React.Component {
 
         if (this.props.autoGrantReadToPrincipalWhenCreating) {
             const groupUrl = ((newTemplate.links || {}).coamAdminGroup || {}).href;
-            grantReadToPrincipal(this.props.accessToken, groupUrl, this.props.autoGrantReadToPrincipalWhenCreating);
+            grantRoleToPrincipal(this.props.accessToken, groupUrl, this.props.autoGrantReadToPrincipalWhenCreating, 'Template Reader');
         }
 
         if (this.props.autoRedirectAfterCreation) {
