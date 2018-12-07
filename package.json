@@ -1,6 +1,6 @@
 {
   "name": "react-cimpress-templates",
-  "version": "0.3.6",
+  "version": "0.3.7",
   "description": "Template selection",
   "main": "./lib/index.js",
   "scripts": {
@@ -58,11 +58,11 @@
   "dependencies": {
     "cimpress-tagliatelle": "^0.1.1",
     "classnames": "^2.2.6",
-    "coam-client": "^0.1.1",
+    "coam-client": "^0.1.2",
     "i18next": "^11.5.0",
     "js-base64": "^2.4.9",
     "prop-types": "^15.6.2",
-    "react-cimpress-comment": "^0.8.6",
+    "react-cimpress-comment": "^0.8.7",
     "react-cimpress-users": "^1.0.4",
     "react-fast-highlight": "^2.2.2",
     "react-frame-component": "^4.0.2",
@@ -71,7 +71,7 @@
     "react-virtualized-select": "^3.1.3",
     "regenerator": "^0.13.2",
     "regenerator-runtime": "^0.12.0",
-    "stereotype-client": "^4.0.1",
+    "stereotype-client": "^4.1.0",
     "webpack": "^4.20.2"
   }
 }
