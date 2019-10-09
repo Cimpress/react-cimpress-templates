@@ -3,6 +3,7 @@ import React from 'react';
 import {storiesOf} from '@storybook/react';
 import {State, Store} from '@sambego/storybook-state';
 import {withKnobs, text, boolean} from '@storybook/addon-knobs/react';
+const simpleParser = require('mailparser').simpleParser;
 
 import Authenticated from './Authenticated';
 import TemplateSelect from '../src/TemplateSelect/TemplateSelect';
@@ -12,12 +13,8 @@ import TemplateItem from '../src/TemplateItem/TemplateItem';
 import {TemplatePreview} from '../src/index';
 
 const store = new Store({
-    lastTemplateId: '70677984-0020-40c3-8817-b77d741dcd11',
+    lastTemplateId: '264e885b-d7f9-4be8-b154-1010f54bece3',
 });
-
-const payloadSimple = {
-    demo: 'asd',
-};
 
 const payload403 = {
     'to': 'istanishev@cimpress.com',
@@ -41,8 +38,11 @@ storiesOf('TemplatePreview', module)
                             accessToken={auth.getAccessToken()}
                             templateId={text('templateId', state.lastTemplateId)}
                             payload={payload403}
-                            materializationLanguage={text('materializationLanguage', 'xml')}
-                            htmlPreview={boolean('htmlPreview', false)}
+                            materializationLanguage={text('materializationLanguage', 'html')}
+                            materializationPostProcessing={(mimeMessage)=> {
+                                return simpleParser(mimeMessage).then((x) => x.html);
+                            }}
+                            htmlPreview={boolean('htmlPreview', true)}
                             renderFrame={boolean('renderFrame', false)}
                         />
                     </div>
