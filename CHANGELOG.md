@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.4.1] - 2019-10-21
+### Changed
+- Handle case when clicking on a hyperlink with a span within it.
+
 ## [0.4.0] - 2019-10-09
 ### Changed
 - Updated dependencies and open preview links in new tabs.
