@@ -88,9 +88,14 @@ class TemplatePreview extends React.Component {
         if (this.props.materializationLanguage === 'html') {
             if (this.props.htmlPreview) {
                 return <div dangerouslySetInnerHTML={{__html: this.state.materialization}}
-                    onClick={({target}) => {
-                        if (target.tagName && target.tagName.toLowerCase() === 'a') {
-                            target.setAttribute('target', '_blank');
+                    onClick={(e) => {
+                        let target = e.target;
+                        while (target) {
+                            if (target.tagName && target.tagName.toLowerCase() === 'a') {
+                                target.setAttribute('target', '_blank');
+                                return;
+                            }
+                            target = target.parentNode;
                         }
                     }}
                 />;
