@@ -1,6 +1,6 @@
 {
   "name": "react-cimpress-templates",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Template selection",
   "main": "./lib/index.js",
   "scripts": {
