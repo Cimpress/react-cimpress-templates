@@ -1,6 +1,6 @@
 {
-  "name": "react-cimpress-templates",
-  "version": "0.5.0",
+  "name": "@cimpress-technology/react-cimpress-templates",
+  "version": "0.5.1",
   "description": "Template selection",
   "main": "./lib/index.js",
   "scripts": {
@@ -14,13 +14,19 @@
     "lib"
   ],
   "author": "TrdelnikSquad@cimpress.com",
+  "keywords": [
+    "Squad: Trdelnik",
+    "BU: Fulfillment & Finance",
+    "CostCenter: 0000603321",
+    "OwnerEmail: TrdelnikSquad@cimpress.com"
+  ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Cimpress/react-cimpress-templates.git"
+    "url": "git@gitlab.com:Cimpress-Technology/internal-open-source/trdelnik/react-cimpress-templates.git"
   },
-  "homepage": "https://github.com/Cimpress/react-cimpress-templates#readme",
+  "homepage": "https://gitlab.com/Cimpress-Technology/internal-open-source/trdelnik/react-cimpress-templates",
   "bugs": {
-    "url": "https://github.com/Cimpress/react-cimpress-templates/issues"
+    "url": "https://gitlab.com/Cimpress-Technology/internal-open-source/trdelnik/react-cimpress-templates/issues"
   },
   "license": "ISC",
   "peerDependencies": {
