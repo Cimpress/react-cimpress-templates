@@ -5,6 +5,10 @@ import {getI18nInstance} from '../i18n';
 import {translate} from 'react-i18next';
 import {Portal} from 'react-portal';
 import {Modal, TextField, Alert} from '@cimpress/react-components';
+import {
+    IconCheck,
+    IconClose,
+} from '@cimpress-technology/react-streamline-icons';
 
 import DefaultButton from './DefaultButton';
 import Loading from './Loading';
@@ -97,7 +101,7 @@ class NewTemplateModal extends React.Component {
                         <DefaultButton
                             disabled={this.state.executing}
                             gaKey={'template.modal.btn.cancel'}
-                            iconName={'close-l'}
+                            icon={IconClose}
                             onClick={() => this.onCancel()}
                             title={this.tt(`modal-btn-cancel`)}
                         />
@@ -106,8 +110,7 @@ class NewTemplateModal extends React.Component {
                             disabled={this.state.executing}
                             gaKey={'template.modal.btn.save'}
                             type={'primary'}
-                            iconName={'check-1-l'}
-                            iconColor={'#fff'}
+                            icon={IconCheck}
                             onClick={() => this.onConfirm()}
                             title={this.tt(`modal-btn-confirm`)}
                         />

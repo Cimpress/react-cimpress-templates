@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Icon, Tooltip} from '@cimpress/react-components';
+import {Tooltip} from '@cimpress/react-components';
 import classNames from 'classnames';
 
 import './IconButton.css';
@@ -28,7 +28,7 @@ let IconButton = (props) => {
             href={props.href}
             onClick={props.onClick && !props.disabled ? clickHandler(props.onClick, props.gaKey) : undefined}
             target={props.target}>
-            <Icon name={props.name} size={props.iconSize} color={props.disabled ? undefined : props.color}/>
+            <props.icon size={props.iconSize}/>
         </a>
     );
 
@@ -45,9 +45,8 @@ let IconButton = (props) => {
 
 IconButton.propTypes = {
     gaKey: PropTypes.string,
-    name: PropTypes.string,
+    icon: PropTypes.elementType.isRequired,
     size: PropTypes.string,
-    color: PropTypes.string,
     tooltip: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
     disabled: PropTypes.bool,
     disabledTooltip: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),

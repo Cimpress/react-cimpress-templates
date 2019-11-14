@@ -6,10 +6,13 @@ import {translate} from 'react-i18next';
 import TemplateSelect from '../TemplateSelect/TemplateSelect';
 import {Portal} from 'react-portal';
 import {Modal} from '@cimpress/react-components';
+import {
+    IconCheck,
+    IconClose,
+} from '@cimpress-technology/react-streamline-icons';
 
 import './TemplateSelectModal.css';
 import DefaultButton from '../internal/DefaultButton';
-
 
 class TemplateSelectModal extends React.Component {
     constructor(props) {
@@ -52,7 +55,7 @@ class TemplateSelectModal extends React.Component {
                 footer={
                     <div align='right'>
                         <DefaultButton
-                            iconName={'close-l'}
+                            icon={IconClose}
                             gaKey={'template.modal.btn.cancel'}
                             onClick={() => this.onCancel()}
                             title={this.tt('modal-btn-cancel')}
@@ -61,8 +64,7 @@ class TemplateSelectModal extends React.Component {
                         <DefaultButton
                             gaKey={'template.modal.btn.save'}
                             type={'primary'}
-                            iconName={'check-1-l'}
-                            iconColor={'#fff'}
+                            icon={IconCheck}
                             onClick={() => this.onConfirm()}
                             title={this.tt('modal-btn-confirm')}
                         />

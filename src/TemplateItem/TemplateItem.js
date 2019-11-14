@@ -9,6 +9,15 @@ import {UsersTable} from 'react-cimpress-users';
 import {getI18nInstance} from '../i18n';
 import TemplateSelectModal from '../TemplateSelectModal/TemplateSelectModal';
 import NewTemplateModal from '../internal/NewTemplateModal';
+import {
+    IconLayoutModule,
+    IconAddCircle,
+    IconImageFileEdit,
+    IconCopy,
+    IconUserLock,
+    IconView,
+
+} from '@cimpress-technology/react-streamline-icons';
 
 import './TemplateItem.css';
 import {listTemplates} from '../apis/stereotype.api';
@@ -227,7 +236,7 @@ class TemplateItem extends React.Component {
                     {this.renderChangeTemplateDialog()}
                     <IconButton
                         gaKey={'btn.template.change'}
-                        name={'view-module-1-f'}
+                        icon={IconLayoutModule}
                         disabled={this.state.fetching}
                         onClick={() => this.onChangeTemplate()}
                         tooltip={this.tt('button_change_tooltip')}
@@ -256,7 +265,7 @@ class TemplateItem extends React.Component {
                             {spacing}
                             <IconButton
                                 gaKey={'create_blank_template'}
-                                name={'add-circle-1'}
+                                icon={IconAddCircle}
                                 disabled={this.state.fetching}
                                 onClick={() => this.setState({
                                     openDialogCreateTemplate: true,
@@ -269,7 +278,7 @@ class TemplateItem extends React.Component {
                             {spacing}
                             <IconButton
                                 gaKey={'edit_template'}
-                                name={'file-picture-edit-l'}
+                                icon={IconImageFileEdit}
                                 disabled={this.state.fetching}
                                 href={this._templateDesignerHref(this.props.templateId)}
                                 target={'_blank'}
@@ -280,7 +289,7 @@ class TemplateItem extends React.Component {
                             {spacing}
                             <IconButton
                                 gaKey={'clone_template'}
-                                name={'copy-3-l'}
+                                icon={IconCopy}
                                 disabled={this.state.fetching}
                                 onClick={() => this.setState({
                                     openDialogCreateTemplate: true,
@@ -294,7 +303,7 @@ class TemplateItem extends React.Component {
                             {this.renderUsersDrawer(templateName)}
                             <IconButton
                                 gaKey={'open_manage_access_drawer'}
-                                name={'person-lock-1-l'}
+                                icon={IconUserLock}
                                 disabled={!groupUrl || this.state.fetching}
                                 onClick={() => this.setState({showUsers: true})}
                                 tooltip={this.tt('button_manage_access_tooltip')}/></Fragment>
@@ -311,7 +320,7 @@ class TemplateItem extends React.Component {
                                     }
                                 }}
                                 gaKey={'btn.view.template'}
-                                name={'view-2-l'}/></Fragment>
+                                icon={IconView}/></Fragment>
                         : null}
                 </div>
             </span>;

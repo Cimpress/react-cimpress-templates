@@ -1,7 +1,9 @@
 import React, {Fragment} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import {Icon, Tooltip} from '@cimpress/react-components';
+import {Tooltip} from '@cimpress/react-components';
+
+import './DefaultButton.css';
 
 let withTooltip = (tooltip, content) => {
     if (!tooltip) {
@@ -24,13 +26,14 @@ let DefaultButton = (props) => {
     let baseButton = (
         <button autoFocus={!!props.autoFocus}
             className={classNames(
+                'rct-default-button',
                 'btn',
                 {'btn-sm': props.size === 'sm'},
                 {'btn-lg': props.size === 'lg'},
                 `btn-${props.type}`,
                 {disabled: props.disabled})}
             onClick={props.disabled ? undefined : clickHandler(props.onClick, props.gaKey)}>
-            {!props.iconName ? null : <Fragment><Icon name={props.iconName} color={props.iconColor}/>&nbsp;&nbsp;</Fragment>}
+            { props.icon && <Fragment><props.icon/>&nbsp;&nbsp;</Fragment> }
             {props.title || props.children}
         </button>
     );
@@ -51,8 +54,7 @@ DefaultButton.propTypes = {
     type: PropTypes.string,
     size: PropTypes.oneOf(['sm', 'lg']),
     title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-    iconName: PropTypes.string,
-    iconColor: PropTypes.string,
+    icon: PropTypes.elementType.isRequired,
     tooltip: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
     disabled: PropTypes.bool,
     disabledTooltip: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),

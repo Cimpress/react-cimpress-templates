@@ -8,6 +8,7 @@ const simpleParser = require('mailparser').simpleParser;
 import Authenticated from './Authenticated';
 import TemplateSelect from '../src/TemplateSelect/TemplateSelect';
 import TemplateSelectButton from '../src/TemplateSelectButton/TemplateSelectButton';
+import PermissionDeniedToTemplate from '../src/TemplatePreview/errors/PermissionDeniedToTemplate';
 import auth from './auth';
 import TemplateItem from '../src/TemplateItem/TemplateItem';
 import {TemplatePreview} from '../src/index';
@@ -158,3 +159,15 @@ storiesOf('TemplateSelectButton', module)
                 onConfirm={(templateId) => store.set({lastTemplateId: templateId})}/>
         </State>
     </Authenticated>);
+
+storiesOf('Errors', module)
+    .addDecorator(withKnobs)
+    .add('PermissionDeniedToTemplate', () =>
+        <State store={store}>
+            <PermissionDeniedToTemplate/>
+        </State>)
+
+    .add('PermissionDeniedToTemplate', () =>
+        <State store={store}>
+            <PermissionDeniedToTemplate/>
+        </State>);
