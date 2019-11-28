@@ -5,7 +5,7 @@ import {translate} from 'react-i18next';
 import CommentsDrawerLink from 'react-cimpress-comment';
 import IconButton from '../internal/IconButton';
 import DefaultButton from '../internal/DefaultButton';
-import {UsersTable} from 'react-cimpress-users';
+import {UsersTable} from '@cimpress-technology/react-cimpress-users';
 import {getI18nInstance} from '../i18n';
 import TemplateSelectModal from '../TemplateSelectModal/TemplateSelectModal';
 import NewTemplateModal from '../internal/NewTemplateModal';

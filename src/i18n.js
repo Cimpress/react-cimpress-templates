@@ -1,15 +1,5 @@
 import i18n from 'i18next';
 
-let languages = {};
-try {
-    languages = require('./locales/translations.json');
-} catch (e) {
-    // eslint-disable-next-line no-console
-    console.warn('No translations files found. You can continue working normally but you would see translation keys instead of standard text.');
-    // eslint-disable-next-line no-console
-    console.warn('If you want to download the translations files, run `npm run build` (checkout the readme file for details)');
-}
-
 let i18nInstance = null;
 
 function getI18nInstance() {
@@ -19,9 +9,15 @@ function getI18nInstance() {
         i18nInstance
             .init({
 
-                fallbackLng: 'eng',
+                fallbackLng: 'en',
 
-                resources: languages,
+                resources: {
+                    en: require('./locales/react-cimpress-templates.en'),
+                    de: require('./locales/react-cimpress-templates.de'),
+                    fr: require('./locales/react-cimpress-templates.fr'),
+                    nl: require('./locales/react-cimpress-templates.nl'),
+                    it: require('./locales/react-cimpress-templates.it'),
+                },
 
                 ns: ['translations'],
                 defaultNS: 'translations',
